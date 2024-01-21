@@ -11,7 +11,7 @@ const StyleHeader = styled.header`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 10px 5%;
+  padding: 10px calc((100% - 1024px) / 2);
   border-bottom: 1px solid rgb(29, 29, 31, 0.15);
   background-color: #f5f5f7;
   z-index: 10;
@@ -19,31 +19,33 @@ const StyleHeader = styled.header`
 
 const StyleLogo = styled(NavLink)`
   display: block;
-  width: fit-content;
+  width: 20%;
   margin-left: 0;
   margin-right: auto;
 
   h1 {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 `;
 
 const StyleMenu = styled.nav`
   display: flex;
-  width: 20%;
-  justify-content: space-between;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
 
   a {
     font-weight: 500;
+    padding: 0 10px;
   }
 `;
 
 const StyleGnb = styled.nav`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 8%;
+  justify-content: end;
+  width: 20%;
   margin-right: 0;
   margin-left: auto;
   color: #1d1d1f;
@@ -54,6 +56,7 @@ const StyleGnb = styled.nav`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    padding: 0 10px;
   }
 `;
 

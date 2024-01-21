@@ -8,7 +8,7 @@ const StyleMain = styled.main`
 
 const StyleSection = styled.section`
   width: 90%;
-  height: 85vh;
+  height: 100vh;
   margin: 0 auto;
   background-color: rgb(126, 99, 99, 0.3);
 `;

@@ -8,6 +8,12 @@ const GlobalStyle = createGlobalStyle`
 		word-break: keep-all;
 	}
 
+	.container {
+		width: 1024px;
+		height: 100%;
+		margin: 0 auto;
+	}
+
 	.hidden {
 		position: absolute;
 		top: -999999px;
