@@ -22,12 +22,6 @@ const GlobalStyle = createGlobalStyle`
 		position: relative;
 	}
 
-	section {
-		width: 100%;
-		height: calc(100vh - 70px);
-		position: relative;
-	}
-
 	a {
 		text-decoration: none;
 		color: #1d1d1f;
