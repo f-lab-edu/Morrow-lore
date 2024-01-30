@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import Header from "./components/common/Header";
@@ -7,12 +7,13 @@ import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/CartPage";
 import MyPage from "./pages/MyPage";
 import SignUpPage from "./pages/SignUpPage";
-import SingleDetailPage from "./pages/SingleDetailPage";
 import PaymentPage from "./pages/PaymentPage";
 import CheckoutPage from "./pages/CheckoutPage";
+// import SingleDetailPage from "./pages/SingleDetailPage";
 
-// 지연 로딩할 ProductPage 컴포넌트
+// ProductPage만 lazy loading으로 import
 const ProductPage = lazy(() => import("./pages/ProductPage"));
+const SingleDetailPage = lazy(() => import("./pages/SingleDetailPage"));
 
 const App: React.FC = () => {
   return (
@@ -24,7 +25,6 @@ const App: React.FC = () => {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/singledetail" element={<SingleDetailPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route
@@ -32,6 +32,14 @@ const App: React.FC = () => {
           element={
             <Suspense fallback={<p>Loading...</p>}>
               <ProductPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/singledetail/:itemId" // 동적 경로 매개변수 사용
+          element={
+            <Suspense fallback={<p>Loading...</p>}>
+              <SingleDetailPage />
             </Suspense>
           }
         />

@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { http } from "msw";
 
 const allPosts = new Map();
 
@@ -11,10 +11,5 @@ export const handlers = [
   }),
   http.delete("/posts/:id", ({ params }) => {
     console.log(`Captured a "DELETE /posts/${params.id}" request`);
-  }),
-  http.get("/posts", () => {
-    // Construct a JSON response with the list of all posts
-    // as the response body.
-    return HttpResponse.json(Array.from(allPosts.values()));
   }),
 ];
