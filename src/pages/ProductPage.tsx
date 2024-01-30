@@ -1,23 +1,49 @@
-import React from "react";
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import { fakerKO as faker } from "@faker-js/faker";
 
-const StyleMain = styled.main`
-  width: 100%;
-  height: 100%;
-`;
-
-const StyleSection = styled.section`
-  width: 90%;
-  height: 85vh;
-  margin: 0 auto;
-  background-color: rgb(126, 99, 99, 0.3);
-`;
+interface Product {
+  id: number;
+  name: string;
+  price: string;
+  image: string;
+  description: string;
+  sales: number;
+}
 
 const ProductPage: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const generateProducts = (): Product[] => {
+      const productArray: Product[] = [];
+      for (let i = 0; i < 100; i++) {
+        productArray.push({
+          id: i,
+          name: faker.commerce.productName(),
+          price: faker.commerce.price(),
+          image: faker.image.urlLoremFlickr({ category: "sneakers" }),
+          description: faker.commerce.productDescription(),
+          sales: faker.number.int(100),
+        });
+      }
+      return productArray;
+    };
+
+    setProducts(generateProducts());
+  }, []);
+
   return (
-    <StyleMain>
-      <StyleSection />
-    </StyleMain>
+    <section>
+      {products.map((product) => (
+        <div key={product.id}>
+          <img src={product.image} alt={product.name} />
+          <h3>{product.name}</h3>
+          <p>{product.description}</p>
+          <p>${product.price}</p>
+          <p>판매 수: {product.sales}</p>
+        </div>
+      ))}
+    </section>
   );
 };
 

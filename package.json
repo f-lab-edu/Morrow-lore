@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^2.0.1",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-slick": "^0.23.13",
+    "morrowlore": "link:",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
@@ -25,6 +26,7 @@
     "styled-components": "^6.1.8"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.0",
     "@types/jest": "^29.5.11",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
