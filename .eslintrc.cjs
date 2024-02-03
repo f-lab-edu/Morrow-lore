@@ -35,7 +35,7 @@ module.exports = {
       2,
       { namedComponents: ["arrow-function", "function-declaration"] },
     ],
-    "react/react-in-jsx-scope": 0,
+    "react/react-in-jsx-scope": 1,
     "react/prefer-stateless-function": 0,
     "react/jsx-one-expression-per-line": 0,
     "no-nested-ternary": 0,

@@ -1,16 +1,16 @@
-import { createGlobalStyle } from "styled-components";
-import NotoSansKRBlackTTF from "../fonts/NotoSansKR-Black.ttf";
-import NotoSansKRBlackWOFF from "../fonts/NotoSansKR-Black.woff";
-import NotoSansKRBoldTTF from "../fonts/NotoSansKR-Bold.ttf";
-import NotoSansKRBoldWOFF from "../fonts/NotoSansKR-Bold.woff";
-import NotoSansKRLightTTF from "../fonts/NotoSansKR-Light.ttf";
-import NotoSansKRLightWOFF from "../fonts/NotoSansKR-Light.woff";
-import NotoSansKRMediumTTF from "../fonts/NotoSansKR-Medium.woff";
-import NotoSansKRMediumWOFF from "../fonts/NotoSansKR-Medium.ttf";
-import NotoSansKRRegularTTF from "../fonts/NotoSansKR-Regular.woff";
-import NotoSansKRRegularWOFF from "../fonts/NotoSansKR-Regular.ttf";
-import NotoSansKRThinTTF from "../fonts/NotoSansKR-Thin.woff";
-import NotoSansKRThinWOFF from "../fonts/NotoSansKR-Thin.ttf";
+import { createGlobalStyle } from 'styled-components';
+import NotoSansKRBlackTTF from '../fonts/NotoSansKR-Black.ttf';
+import NotoSansKRBlackWOFF from '../fonts/NotoSansKR-Black.woff';
+import NotoSansKRBoldTTF from '../fonts/NotoSansKR-Bold.ttf';
+import NotoSansKRBoldWOFF from '../fonts/NotoSansKR-Bold.woff';
+import NotoSansKRLightTTF from '../fonts/NotoSansKR-Light.ttf';
+import NotoSansKRLightWOFF from '../fonts/NotoSansKR-Light.woff';
+import NotoSansKRMediumTTF from '../fonts/NotoSansKR-Medium.woff';
+import NotoSansKRMediumWOFF from '../fonts/NotoSansKR-Medium.ttf';
+import NotoSansKRRegularTTF from '../fonts/NotoSansKR-Regular.woff';
+import NotoSansKRRegularWOFF from '../fonts/NotoSansKR-Regular.ttf';
+import NotoSansKRThinTTF from '../fonts/NotoSansKR-Thin.woff';
+import NotoSansKRThinWOFF from '../fonts/NotoSansKR-Thin.ttf';
 
 // 폰트적용
 const GlobalFont = createGlobalStyle`	

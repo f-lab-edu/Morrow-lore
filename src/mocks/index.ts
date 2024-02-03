@@ -1,9 +1,9 @@
 const initMockAPI = async (): Promise<void> => {
-  if (typeof window === "undefined") {
-    const { server } = await import("./server");
-    server.listen();
+  if (typeof window === 'undefined') {
+    const { servers } = await import('./servers');
+    servers.listen();
   } else {
-    const { worker } = await import("./browser");
+    const { worker } = await import('./browser');
     worker.start();
   }
 };

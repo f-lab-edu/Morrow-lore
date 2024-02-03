@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
 
-import Carousel from "../components/slider/Carousel";
+import Carousel from '../components/slider/Carousel';
 
 const StyleMain = styled.main`
   width: 100%;

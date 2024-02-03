@@ -1,15 +1,9 @@
-import { http } from "msw";
-
-const allPosts = new Map();
+import { http, HttpResponse } from 'msw';
+import { products } from '../tests/FakerTestData';
 
 export const handlers = [
-  http.get("/posts", () => {
-    console.log('Captured a "GET /posts" request');
-  }),
-  http.post("/posts", () => {
-    console.log('Captured a "POST /posts" request');
-  }),
-  http.delete("/posts/:id", ({ params }) => {
-    console.log(`Captured a "DELETE /posts/${params.id}" request`);
+  http.get('/api/products', () => {
+    console.log(products);
+    return HttpResponse.json({ products });
   }),
 ];

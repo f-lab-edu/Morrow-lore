@@ -1,13 +1,13 @@
-import React from "react";
-import styled from "styled-components";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { NavLink } from "react-router-dom";
-import Slider from "react-slick";
+import React from 'react';
+import styled from 'styled-components';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { NavLink } from 'react-router-dom';
+import Slider from 'react-slick';
 
-import sneakers1 from "../../assets/images/sneakers1.png";
-import sneakers2 from "../../assets/images/sneakers2.png";
-import sneakers3 from "../../assets/images/sneakers3.png";
+import sneakers1 from '../../assets/images/sneakers1.png';
+import sneakers2 from '../../assets/images/sneakers2.png';
+import sneakers3 from '../../assets/images/sneakers3.png';
 
 const StyleSlider = styled.figure`
   width: 100%;

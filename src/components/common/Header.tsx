@@ -1,8 +1,8 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import Icon from "@mdi/react";
-import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from "@mdi/js";
-import styled from "styled-components";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import Icon from '@mdi/react';
+import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from '@mdi/js';
+import styled from 'styled-components';
 
 const StyleHeader = styled.header`
   position: fixed;
