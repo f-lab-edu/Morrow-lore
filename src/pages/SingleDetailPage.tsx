@@ -8,7 +8,7 @@ const SingleDetailPage: React.FC = () => {
   return (
     <div>
       <h1>{product.name}</h1>
-      <img src={product.image} alt={product.name} />
+      <img src={product.photo} alt={product.name} />
       <p>{product.description}</p>
       <p>가격: ${product.price}</p>
       <p>판매 수: {product.sales}</p>

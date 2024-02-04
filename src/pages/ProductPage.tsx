@@ -27,7 +27,7 @@ const ProductPage: React.FC = () => {
           onClick={() => handleProductClick(product.id)}
           style={{ cursor: 'pointer' }}
         >
-          {/* <img src={product.image} alt={product.name} /> */}
+          <img src={product.photo} alt={product.name} />
           <h3>{product.name}</h3>
           <p>{product.description}</p>
           <p>${product.price}</p>
