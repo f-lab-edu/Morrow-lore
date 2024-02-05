@@ -10,13 +10,18 @@ const ProductPage: React.FC = () => {
     axios
       .get('/api/products')
       .then((response) => {
-        setProducts(response.data.products);
+        setProducts(response.data.result);
       })
       .catch((error) => console.error('Fetching products failed:', error));
   }, []);
 
   const handleProductClick = (productId: number) => {
-    navigate(`/singledetail/${productId}`);
+    axios
+      .post(`/singledetail/${productId}`)
+      .then(() => {
+        navigate(`/singledetail/${productId}`);
+      })
+      .catch((error) => console.error('Fetching products failed:', error));
   };
 
   return (
