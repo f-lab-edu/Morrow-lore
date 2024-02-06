@@ -18,7 +18,7 @@ const SingleDetailPage: React.FC = () => {
       .catch((error) => console.error('Fetching products failed:', error));
   }, []);
 
-  const handleCartClick = () => {
+  const handleCartClick = (product: object) => {
     if (inCart === false) {
       setInCart(true);
     } else {
@@ -28,6 +28,11 @@ const SingleDetailPage: React.FC = () => {
 
   const handleGoCartClick = (product: object) => {
     navigate(`/cart`);
+
+    axios
+      .post(`/cart`, { product: product })
+      .then(() => {})
+      .catch((error) => console.error('Fetching products failed:', error));
   };
 
   return (
@@ -40,10 +45,8 @@ const SingleDetailPage: React.FC = () => {
         <p>판매 수: {product.sales}</p>
       </article>
       <aside>
-        <button onClick={() => handleCartClick}>장바구니담기</button>
-        <button onClick={() => handleGoCartClick(product)}>
-          장바구니바로결제하기
-        </button>
+        <button onClick={() => handleCartClick(product)}>장바구니담기</button>
+        <button onClick={() => handleGoCartClick(product)}>결제하기</button>
       </aside>
     </section>
   );

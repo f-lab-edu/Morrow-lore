@@ -8,7 +8,7 @@ const ProductPage: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get('/api/products')
+      .get('/products')
       .then((response) => {
         setProducts(response.data.result);
       })
