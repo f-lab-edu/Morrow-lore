@@ -1,21 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import { ROUTES } from '../routes/ManageCenterRotue';
+import { useAxios } from '../axios/axiosContext';
 
 const SingleDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
   const [product, setProducts] = useState([]);
   const [inCart, setInCart] = useState(false);
+  const axios = useAxios();
 
   useEffect(() => {
-    axios
-      .get(`/singledetail/${itemId}`)
-      .then((response) => {
-        setProducts(response.data.detailResult[0]);
-      })
-      .catch((error) => console.error('Fetching products failed:', error));
+    try {
+      axios
+        .get(`/api/product/${itemId}`)
+        .then((response) => {
+          setProducts(response.data.detailResult[0]);
+        })
+        .catch((error) => console.error('Fetching products failed:', error));
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   const handleCartClick = (product: object) => {
@@ -27,12 +33,16 @@ const SingleDetailPage: React.FC = () => {
   };
 
   const handleGoCartClick = (product: object) => {
-    navigate(`/cart`);
+    navigate(ROUTES.CART);
 
-    axios
-      .post(`/cart`, { product: product })
-      .then(() => {})
-      .catch((error) => console.error('Fetching products failed:', error));
+    try {
+      axios
+        .post(`/api/cart`, { product: product })
+        .then(() => {})
+        .catch((error) => console.error('Fetching products failed:', error));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

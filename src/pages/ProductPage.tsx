@@ -1,27 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { ROUTES } from '../routes/ManageCenterRotue';
+import { useAxios } from '../axios/axiosContext';
 
 const ProductPage: React.FC = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
+  const axios = useAxios();
 
   useEffect(() => {
-    axios
-      .get('/products')
-      .then((response) => {
-        setProducts(response.data.result);
-      })
-      .catch((error) => console.error('Fetching products failed:', error));
-  }, []);
+    const fetchData = async () => {
+      try {
+        await axios
+          .get('/api/products')
+          .then((response) => {
+            setProducts(response.data.result);
+          })
+          .catch((error) => console.error('Fetching products failed:', error));
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [axios]);
 
   const handleProductClick = (productId: number) => {
-    axios
-      .post(`/singledetail/${productId}`)
-      .then(() => {
-        navigate(`/singledetail/${productId}`);
-      })
-      .catch((error) => console.error('Fetching products failed:', error));
+    try {
+      axios
+        .post(`/api/product/${productId}`)
+        .then(() => {
+          navigate(ROUTES.PRODUCTID(productId));
+        })
+        .catch((error) => console.error('Fetching products failed:', error));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

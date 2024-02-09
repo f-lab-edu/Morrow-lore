@@ -12,7 +12,7 @@ interface Product {
 const cart: Product[] = [];
 
 export const handlers = [
-  http.get('/products', async () => {
+  http.get('/api/products', async () => {
     try {
       const result = await products;
       return HttpResponse.json({ result });
@@ -20,28 +20,22 @@ export const handlers = [
       return HttpResponse.error();
     }
   }),
-  http.post(`/singledetail/:productId`, async ({}) => {
+  http.post(`/api/product/:productId`, async ({}) => {
     try {
       return HttpResponse.json();
     } catch (error) {
       return HttpResponse.error();
     }
   }),
-  http.get(`/singledetail/:productId`, async ({ params }) => {
+  http.get(`/api/product/:productId`, async ({ params }) => {
     const { productId } = params;
     try {
-      const result = await products;
-      const detailResult = result.filter((x) => {
-        if (x.id === parseInt(productId)) {
-          return x;
-        }
-      });
-      return HttpResponse.json({ detailResult });
+      return HttpResponse.json({ productId });
     } catch (error) {
       return HttpResponse.error();
     }
   }),
-  http.post(`/cart`, async ({ request }) => {
+  http.post(`/api/cart`, async ({ request }) => {
     const product = await request.json();
     try {
       cart.push(product);
@@ -51,7 +45,7 @@ export const handlers = [
       return HttpResponse.error();
     }
   }),
-  http.get(`/cart`, async () => {
+  http.get(`/api/cart`, async () => {
     try {
       return HttpResponse.json(JSON.parse(localStorage.getItem('myCart')));
     } catch (error) {

@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { ROUTES } from '../routes/ManageCenterRotue';
+import { useAxios } from '../axios/axiosContext';
 
 const CartPage: React.FC = () => {
   const [carts, setCarts] = useState([]);
   const navigate = useNavigate();
+  const axios = useAxios();
 
   useEffect(() => {
-    axios
-      .get(`/cart`)
-      .then((response) => {
-        setCarts(response.data);
-      })
-      .catch((error) => console.error('Fetching products failed:', error));
+    try {
+      axios
+        .get(`/api/cart`)
+        .then((response) => {
+          setCarts(response.data);
+        })
+        .catch((error) => console.error('Fetching products failed:', error));
+    } catch (error) {
+      console.error(error);
+    }
   }, []);
 
   const handleCheckoutClick = () => {
-    navigate(`/checkout`);
+    navigate(ROUTES.CHECKOUT);
   };
 
   return (

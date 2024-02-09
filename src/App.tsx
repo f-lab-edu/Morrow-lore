@@ -13,7 +13,7 @@ import CheckoutPage from './pages/CheckoutPage';
 import LazyLoadWrapper from './components/utility/LazyLoadWrapper';
 
 const ProductPage = lazy(() => import('./pages/ProductPage'));
-const SingleDetailPage = lazy(() => import('./pages/SingleDetailPage'));
+const ProductIdPage = lazy(() => import('./pages/ProductIdPage'));
 
 const App: React.FC = () => {
   return (
@@ -28,7 +28,7 @@ const App: React.FC = () => {
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route
-          path="/product"
+          path="/products"
           element={
             <LazyLoadWrapper>
               <ProductPage />
@@ -36,10 +36,10 @@ const App: React.FC = () => {
           }
         />
         <Route
-          path="/singledetail/:itemId"
+          path="/product/:itemId"
           element={
             <LazyLoadWrapper>
-              <SingleDetailPage />
+              <ProductIdPage />
             </LazyLoadWrapper>
           }
         />

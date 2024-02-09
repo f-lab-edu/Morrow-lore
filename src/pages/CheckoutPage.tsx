@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
+import { ROUTES } from '../routes/ManageCenterRotue';
+import { useAxios } from '../axios/axiosContext';
 
 const StyleCheckout = styled.section`
   width: 100%;
@@ -27,33 +28,42 @@ const StyleCheckout = styled.section`
 
 const CheckoutPage: React.FC = () => {
   const [checkout, setCheckout] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
+  const axios = useAxios();
 
   useEffect(() => {
-    axios
-      .get(`/cart`)
-      .then((response) => {
-        const myCart = response.data;
-        const totalAmount = myCart.reduce((total, item) => {
-          const price = parseInt(item.product.price);
-          const discountRate = parseInt(item.product.sales) / 100;
-          const discountedPrice = price - price * discountRate;
-          return total + discountedPrice;
-        }, 0);
+    try {
+      axios
+        .get(`/api/cart`)
+        .then((response) => {
+          const myCart = response.data;
+          setCheckout(myCart);
+        })
+        .catch((error) => console.error('Fetching products failed:', error));
+    } catch (error) {
+      console.error(error);
+    }
 
-        setCheckout(totalAmount);
-      })
-      .catch((error) => console.error('Fetching products failed:', error));
+    const handleTotalAmount = () =>
+      checkout.reduce((total, item) => {
+        const price = parseInt(item.product.price);
+        const discountRate = parseInt(item.product.sales) / 100;
+        const discountedPrice = price - price * discountRate;
+        return total + discountedPrice;
+      }, 0);
+
+    setTotalAmount(handleTotalAmount);
   }, []);
 
   const handlePaymentClick = () => {
-    navigate('/payment');
+    navigate(ROUTES.PAYMENT);
   };
 
   return (
     <StyleCheckout>
       <article>
-        <p>{checkout} 원</p>
+        <p>{totalAmount} 원</p>
         <button
           onClick={() => {
             handlePaymentClick();
