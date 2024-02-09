@@ -30,6 +30,7 @@ const ProductPage: React.FC = () => {
       axios
         .post(`/product/${productId}`)
         .then(() => {
+          console.log(productId, 111);
           navigate(ROUTES.PRODUCTID(productId));
         })
         .catch((error) => console.error('Fetching products failed:', error));

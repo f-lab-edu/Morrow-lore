@@ -30,7 +30,13 @@ export const handlers = [
   http.get(`/api/product/:productId`, async ({ params }) => {
     const { productId } = params;
     try {
-      return HttpResponse.json({ productId });
+      const result = await products;
+      const detailResult = result.filter((x) => {
+        if (x.id === parseInt(productId)) {
+          return x;
+        }
+      });
+      return HttpResponse.json({ detailResult });
     } catch (error) {
       return HttpResponse.error();
     }

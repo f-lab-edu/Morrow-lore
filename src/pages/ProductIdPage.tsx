@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import { ROUTES } from '../routes/ManageCenterRotue';
 import { useAxios } from '../axios/AxiosContext';
+
+const StyleProduct = styled.section`
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+`;
 
 const SingleDetailPage: React.FC = () => {
   const navigate = useNavigate();
@@ -46,7 +55,7 @@ const SingleDetailPage: React.FC = () => {
   };
 
   return (
-    <section>
+    <StyleProduct>
       <article>
         <h1>{product.name}</h1>
         <img src={product.photo} alt={product.name} />
@@ -58,7 +67,7 @@ const SingleDetailPage: React.FC = () => {
         <button onClick={() => handleCartClick(product)}>장바구니담기</button>
         <button onClick={() => handleGoCartClick(product)}>결제하기</button>
       </aside>
-    </section>
+    </StyleProduct>
   );
 };
 

@@ -1,6 +1,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { ROUTES } from '../routes/ManageCenterRotue';
+
+const StylePayment = styled.section`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
 
 const PaymentPage: React.FC = () => {
   const navigate = useNavigate();
@@ -10,7 +20,7 @@ const PaymentPage: React.FC = () => {
   };
 
   return (
-    <section>
+    <StylePayment>
       <h1>결제수단</h1>
       <ul>
         <li>
@@ -23,7 +33,7 @@ const PaymentPage: React.FC = () => {
           <button onClick={() => handleCompletedPayment()}>카드</button>
         </li>
       </ul>
-    </section>
+    </StylePayment>
   );
 };
 
