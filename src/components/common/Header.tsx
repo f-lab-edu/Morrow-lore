@@ -1,8 +1,8 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
-import Icon from "@mdi/react";
-import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from "@mdi/js";
-import styled from "styled-components";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import Icon from '@mdi/react';
+import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from '@mdi/js';
+import styled from 'styled-components';
 
 const StyleHeader = styled.header`
   position: fixed;
@@ -13,7 +13,8 @@ const StyleHeader = styled.header`
   width: 100%;
   padding: 10px calc((100% - 1024px) / 2);
   border-bottom: 1px solid rgb(29, 29, 31, 0.15);
-  background-color: #f5f5f7;
+  background-color: rgb(245, 245, 247, 0.6);
+  backdrop-filter: blur(10px);
   z-index: 10;
 `;
 

@@ -1,24 +1,28 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
-import enableMocking from "./mocks/enableMocking.ts";
-import App from "./App.tsx";
-import GlobalFont from "./assets/style/GlobalFont.tsx";
-import GlobalStyle from "./assets/style/GlobalStyle.tsx";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import initMockAPI from './mocks/initMockAPI.ts';
+import { AxiosProvider } from './axios/axiosContext.tsx';
+import App from './App.tsx';
 
-enableMocking();
+import GlobalFont from './assets/styles/GlobalFont.tsx';
+import GlobalStyle from './assets/styles/GlobalStyle.tsx';
 
-const rootElement = document.getElementById("root");
+initMockAPI();
+
+const rootElement = document.getElementById('root');
 if (rootElement) {
   const root = ReactDOM.createRoot(rootElement);
 
   root.render(
     <React.StrictMode>
-      <GlobalFont />
-      <GlobalStyle />
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <AxiosProvider>
+        <GlobalFont />
+        <GlobalStyle />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </AxiosProvider>
     </React.StrictMode>,
   );
 }

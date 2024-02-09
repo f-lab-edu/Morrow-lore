@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import { useAxios } from '../axios/axiosContext';
+import styled from 'styled-components';
 
 const StyleMain = styled.main`
   width: 100%;
@@ -14,6 +15,7 @@ const StyleSection = styled.section`
 `;
 
 const PaymentPage: React.FC = () => {
+  const axios = useAxios();
   return (
     <StyleMain>
       <StyleSection />
