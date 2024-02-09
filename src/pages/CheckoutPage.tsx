@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { useAxios } from '../axios/axiosContext';
+import { useAxios } from '../axios/AxiosContext';
 
 const StyleCheckout = styled.section`
   width: 100%;

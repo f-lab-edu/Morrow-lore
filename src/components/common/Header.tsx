@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import Icon from '@mdi/react';
 import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from '@mdi/js';
 import styled from 'styled-components';
+import { ROUTES } from '../../routes/ManageCenterRotue';
 
 const StyleHeader = styled.header`
   position: fixed;
@@ -64,18 +65,18 @@ const StyleGnb = styled.nav`
 const Header: React.FC = () => {
   return (
     <StyleHeader>
-      <StyleLogo to="/">
+      <StyleLogo to={ROUTES.HOME}>
         <h1>MORROWLORE</h1>
       </StyleLogo>
 
       <StyleMenu>
-        <NavLink to="/product">제품</NavLink>
-        <NavLink to="/product">베스트</NavLink>
-        <NavLink to="/product">커스텀</NavLink>
+        <NavLink to={ROUTES.PRODUCTS}>제품</NavLink>
+        <NavLink to={ROUTES.PRODUCTS}>베스트</NavLink>
+        <NavLink to={ROUTES.PRODUCTS}>커스텀</NavLink>
       </StyleMenu>
 
       <StyleGnb>
-        <NavLink to="/login">
+        <NavLink to={ROUTES.LOGINL}>
           <span className="hidden">로그인</span>
           <Icon path={mdiAccountCircleOutline} size={1.1} />
         </NavLink>
@@ -83,7 +84,7 @@ const Header: React.FC = () => {
           <span className="hidden">검색</span>
           <Icon path={mdiMagnify} size={1.1} />
         </button>
-        <NavLink to="/cart">
+        <NavLink to={ROUTES.CART}>
           <span className="hidden">장바구니</span>
           <Icon path={mdiCartOutline} size={1.1} />
         </NavLink>

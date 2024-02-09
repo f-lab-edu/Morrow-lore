@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { NavLink } from 'react-router-dom';
 import Slider from 'react-slick';
 
+import { ROUTES } from '../../routes/ManageCenterRotue';
 import sneakers1 from '../../assets/images/sneakers1.png';
 import sneakers2 from '../../assets/images/sneakers2.png';
 import sneakers3 from '../../assets/images/sneakers3.png';
@@ -77,17 +78,17 @@ const Carousel: React.FC = () => {
         <div>
           <img src={sneakers1} alt="스니커즈이미지1" />
           <strong>Your Design, Your Shoes</strong>
-          <NavLink to="/product">Learn more</NavLink>
+          <NavLink to={ROUTES.PRODUCTS}>Learn more</NavLink>
         </div>
         <div>
           <img src={sneakers2} alt="스니커즈이미지2" />
           <strong>Sneakers as Unique as You</strong>
-          <NavLink to="/product">Learn more</NavLink>
+          <NavLink to={ROUTES.PRODUCTS}>Learn more</NavLink>
         </div>
         <div>
           <img src={sneakers3} alt="스니커즈이미지3" />
           <strong>Creativity at Your Feet</strong>
-          <NavLink to="/product">Learn more</NavLink>
+          <NavLink to={ROUTES.PRODUCTS}>Learn more</NavLink>
         </div>
       </Slider>
     </StyleSlider>

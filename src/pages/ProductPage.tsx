@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { useAxios } from '../axios/axiosContext';
+import { useAxios } from '../axios/AxiosContext';
 
 const ProductPage: React.FC = () => {
   const [products, setProducts] = useState([]);
