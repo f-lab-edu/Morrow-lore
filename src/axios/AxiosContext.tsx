@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: '/test',
 });
 
 const AxiosContext = createContext();
