@@ -12,7 +12,7 @@ const ProductPage: React.FC = () => {
     const fetchData = async () => {
       try {
         await axios
-          .get('/api/products')
+          .get('/products')
           .then((response) => {
             setProducts(response.data.result);
           })
@@ -28,7 +28,7 @@ const ProductPage: React.FC = () => {
   const handleProductClick = (productId: number) => {
     try {
       axios
-        .post(`/api/product/${productId}`)
+        .post(`/product/${productId}`)
         .then(() => {
           navigate(ROUTES.PRODUCTID(productId));
         })

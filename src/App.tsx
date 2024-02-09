@@ -9,6 +9,7 @@ import MyPage from './pages/MyPage';
 import SignUpPage from './pages/SignUpPage';
 import PaymentPage from './pages/PaymentPage';
 import CheckoutPage from './pages/CheckoutPage';
+import PaymentCompletedPage from './pages/PaymentCompeletedPage';
 
 import LazyLoadWrapper from './components/utility/LazyLoadWrapper';
 
@@ -27,6 +28,7 @@ const App: React.FC = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/orderComplete" element={<PaymentCompletedPage />} />
         <Route
           path="/products"
           element={

@@ -11,7 +11,7 @@ const CartPage: React.FC = () => {
   useEffect(() => {
     try {
       axios
-        .get(`/api/cart`)
+        .get(`/cart`)
         .then((response) => {
           setCarts(response.data);
         })

@@ -1,25 +1,29 @@
 import React from 'react';
-import { useAxios } from '../axios/AxiosContext';
-import styled from 'styled-components';
-
-const StyleMain = styled.main`
-  width: 100%;
-  height: 100%;
-`;
-
-const StyleSection = styled.section`
-  width: 90%;
-  height: 85vh;
-  margin: 0 auto;
-  background-color: rgb(126, 99, 99, 0.3);
-`;
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../routes/ManageCenterRotue';
 
 const PaymentPage: React.FC = () => {
-  const axios = useAxios();
+  const navigate = useNavigate();
+
+  const handleCompletedPayment = () => {
+    navigate(ROUTES.ORDERCOMPLETE);
+  };
+
   return (
-    <StyleMain>
-      <StyleSection />
-    </StyleMain>
+    <section>
+      <h1>결제수단</h1>
+      <ul>
+        <li>
+          <button onClick={() => handleCompletedPayment()}>간편결제</button>
+        </li>
+        <li>
+          <button onClick={() => handleCompletedPayment()}>계좌</button>
+        </li>
+        <li>
+          <button onClick={() => handleCompletedPayment()}>카드</button>
+        </li>
+      </ul>
+    </section>
   );
 };
 

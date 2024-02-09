@@ -14,7 +14,7 @@ const SingleDetailPage: React.FC = () => {
   useEffect(() => {
     try {
       axios
-        .get(`/api/product/${itemId}`)
+        .get(`/product/${itemId}`)
         .then((response) => {
           setProducts(response.data.detailResult[0]);
         })
@@ -37,7 +37,7 @@ const SingleDetailPage: React.FC = () => {
 
     try {
       axios
-        .post(`/api/cart`, { product: product })
+        .post(`/cart`, { product: product })
         .then(() => {})
         .catch((error) => console.error('Fetching products failed:', error));
     } catch (error) {

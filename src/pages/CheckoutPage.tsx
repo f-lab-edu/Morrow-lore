@@ -35,7 +35,7 @@ const CheckoutPage: React.FC = () => {
   useEffect(() => {
     try {
       axios
-        .get(`/api/cart`)
+        .get(`/cart`)
         .then((response) => {
           const myCart = response.data;
           setCheckout(myCart);
@@ -64,6 +64,19 @@ const CheckoutPage: React.FC = () => {
     <StyleCheckout>
       <article>
         <p>{totalAmount} 원</p>
+        <article>
+          <h2>포인트</h2>
+          <input type="number" name="point" id="point" />
+        </article>
+        <article>
+          <h2>쿠폰</h2>
+          <input type="text" name="coupon" />
+          <div className="couponWrap">
+            <input type="radio" name="coupon" id="new" />
+            <input type="radio" name="coupon" id="new2" />
+            <input type="radio" name="coupon" id="new3" />
+          </div>
+        </article>
         <button
           onClick={() => {
             handlePaymentClick();
