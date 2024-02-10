@@ -38,7 +38,7 @@ const App: React.FC = () => {
           }
         />
         <Route
-          path="/product/:itemId"
+          path="/products/:itemId"
           element={
             <LazyLoadWrapper>
               <ProductIdPage />

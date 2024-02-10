@@ -4,7 +4,7 @@ export const ROUTES = {
   CART: '/cart',
   CHECKOUT: '/checkout',
   MYPAGE: '/mypage',
-  PRODUCTID: (productId) => `/product/${productId}`,
+  PRODUCTID: (productId) => `/products/${productId}`,
   PRODUCTS: '/products',
   SIGNUP: '/signup',
   LOGINL: '/login',
