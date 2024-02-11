@@ -24,13 +24,23 @@ const generateProducts = async () => {
   const photoUrls =
     response.response?.results.map((photo) => photo.urls.small) || [];
 
+  const random = (max, min, price) => {
+    let randomNumber = Math.floor(Math.random() * (max - min) + min);
+    let resultPrice = Math.floor(randomNumber / 1000) * 1000;
+    if (price === true) {
+      return resultPrice;
+    } else {
+      return randomNumber;
+    }
+  };
+
   for (let i = 0; i < photoUrls.length; i++) {
     products.push({
       id: i,
       name: `MORROWLORE-SB110${i}`,
-      price: Math.floor(Math.random() * (200000 - 50000) + 50000),
+      price: random(200000, 50000, true),
       photo: photoUrls[i],
-      sales: Math.floor(Math.random() * (30 - 10) + 10),
+      sales: random(50, 10, false),
     });
   }
 };
