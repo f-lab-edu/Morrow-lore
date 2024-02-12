@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import Icon from '@mdi/react';
 import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from '@mdi/js';
 import styled from 'styled-components';
 import { ROUTES } from '../../routes/ManageCenterRotue';
+import { getCart } from '../../api/cart/getCart';
 
 const StyleHeader = styled.header`
   position: fixed;
@@ -54,15 +55,46 @@ const StyleGnb = styled.nav`
 
   a,
   button {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     padding: 0 10px;
+    .bedge {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background-color: rgb(223, 52, 9, 0.85);
+      color: #f5f5f7;
+      font-size: 12px;
+      top: -10px;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `;
 
 const Header: React.FC = () => {
+  const [cartNum, setCartNum] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const carts = await getCart();
+        const cartsData = carts.data;
+        setCartNum(cartsData.length);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [cartNum]);
+
   return (
     <StyleHeader>
       <StyleLogo to={ROUTES.HOME}>
@@ -85,6 +117,11 @@ const Header: React.FC = () => {
           <Icon path={mdiMagnify} size={1.1} />
         </button>
         <NavLink to={ROUTES.CART}>
+          {cartNum > 0 && (
+            <div className="bedge">
+              <p>{cartNum}</p>
+            </div>
+          )}
           <span className="hidden">장바구니</span>
           <Icon path={mdiCartOutline} size={1.1} />
         </NavLink>

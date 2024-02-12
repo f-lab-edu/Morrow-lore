@@ -125,7 +125,7 @@ const StyledLabel = styled.label`
   height: 20px;
   border-radius: 50%;
   opacity: 0.7;
-  background-color: ${(props) => props.bgColor};
+  background-color: ${(props) => props.$bgcolor};
   transition: all 0.3s;
 `;
 
@@ -164,37 +164,37 @@ const ProductPage: React.FC = () => {
           <ul>
             <li>
               <input type="radio" name="color" id="red" />
-              <StyledLabel htmlFor="red" bgColor={'red'}></StyledLabel>
+              <StyledLabel htmlFor="red" $bgcolor={'red'}></StyledLabel>
               <p>레드</p>
             </li>
             <li>
               <input type="radio" name="color" id="orange" />
-              <StyledLabel htmlFor="orange" bgColor={'orange'}></StyledLabel>
+              <StyledLabel htmlFor="orange" $bgcolor={'orange'}></StyledLabel>
               <p>오렌지</p>
             </li>
             <li>
               <input type="radio" name="color" id="yellow" />
-              <StyledLabel htmlFor="yellow" bgColor={'yellow'}></StyledLabel>
+              <StyledLabel htmlFor="yellow" $bgcolor={'yellow'}></StyledLabel>
               <p>옐로우</p>
             </li>
             <li>
               <input type="radio" name="color" id="green" />
-              <StyledLabel htmlFor="green" bgColor={'green'}></StyledLabel>
+              <StyledLabel htmlFor="green" $bgcolor={'green'}></StyledLabel>
               <p>그린</p>
             </li>
             <li>
               <input type="radio" name="color" id="blue" />
-              <StyledLabel htmlFor="blue" bgColor={'blue'}></StyledLabel>
+              <StyledLabel htmlFor="blue" $bgcolor={'blue'}></StyledLabel>
               <p>블루</p>
             </li>
             <li>
               <input type="radio" name="color" id="navy" />
-              <StyledLabel htmlFor="navy" bgColor={'navy'}></StyledLabel>
+              <StyledLabel htmlFor="navy" $bgcolor={'navy'}></StyledLabel>
               <p>네이비</p>
             </li>
             <li>
               <input type="radio" name="color" id="purple" />
-              <StyledLabel htmlFor="purple" bgColor={'purple'}></StyledLabel>
+              <StyledLabel htmlFor="purple" $bgcolor={'purple'}></StyledLabel>
               <p>퍼플</p>
             </li>
           </ul>
