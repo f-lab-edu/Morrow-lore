@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { useAxios } from '../axios/AxiosContext';
+import { getTheProduct } from '../api/products/getProductsId';
+import { deleteCarts } from '../api/cart/deleteCarts';
+import { postCarts } from '../api/cart/postCarts';
 
 const StyleProduct = styled.section`
   display: flex;
@@ -18,40 +21,32 @@ const SingleDetailPage: React.FC = () => {
   const { itemId } = useParams<{ itemId: string }>();
   const [product, setProducts] = useState([]);
   const [inCart, setInCart] = useState(false);
-  const axios = useAxios();
 
   useEffect(() => {
-    try {
-      axios
-        .get(`/product/${itemId}`)
-        .then((response) => {
-          setProducts(response.data.detailResult[0]);
-        })
-        .catch((error) => console.error('Fetching products failed:', error));
-    } catch (error) {
-      console.error(error);
-    }
+    const fetchData = async () => {
+      try {
+        const item = await getTheProduct(itemId);
+        setProducts(item.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleCartClick = (product: object) => {
+  const handleCartClick = async (product: object) => {
     if (inCart === false) {
       setInCart(true);
+      await postCarts(product);
     } else {
       setInCart(false);
+      await deleteCarts(product);
     }
   };
 
-  const handleGoCartClick = (product: object) => {
-    navigate(ROUTES.CART);
-
-    try {
-      axios
-        .post(`/cart`, { product: product })
-        .then(() => {})
-        .catch((error) => console.error('Fetching products failed:', error));
-    } catch (error) {
-      console.error(error);
-    }
+  const handleGoCartClick = () => {
+    navigate(ROUTES.CHECKOUT);
   };
 
   return (
@@ -59,13 +54,12 @@ const SingleDetailPage: React.FC = () => {
       <article>
         <h1>{product.name}</h1>
         <img src={product.photo} alt={product.name} />
-        <p>{product.description}</p>
+        <p>{product.sales}</p>
         <p>가격: ${product.price}</p>
-        <p>판매 수: {product.sales}</p>
       </article>
       <aside>
         <button onClick={() => handleCartClick(product)}>장바구니담기</button>
-        <button onClick={() => handleGoCartClick(product)}>결제하기</button>
+        <button onClick={() => handleGoCartClick()}>결제하기</button>
       </aside>
     </StyleProduct>
   );

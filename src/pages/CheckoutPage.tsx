@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { useAxios } from '../axios/AxiosContext';
+import { getCart } from '../api/cart/getCart';
 
 const StyleCheckout = styled.section`
   width: 100%;
@@ -30,20 +31,16 @@ const CheckoutPage: React.FC = () => {
   const [checkout, setCheckout] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const navigate = useNavigate();
-  const axios = useAxios();
 
   useEffect(() => {
-    try {
-      axios
-        .get(`/cart`)
-        .then((response) => {
-          const myCart = response.data;
-          setCheckout(myCart);
-        })
-        .catch((error) => console.error('Fetching products failed:', error));
-    } catch (error) {
-      console.error(error);
-    }
+    const fetchData = async () => {
+      try {
+        const myCart = await getCart();
+        setCheckout(myCart.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     const handleTotalAmount = () =>
       checkout.reduce((total, item) => {
@@ -53,8 +50,9 @@ const CheckoutPage: React.FC = () => {
         return total + discountedPrice;
       }, 0);
 
+    fetchData();
     setTotalAmount(handleTotalAmount);
-  }, []);
+  }, [setTotalAmount]);
 
   const handlePaymentClick = () => {
     navigate(ROUTES.PAYMENT);
