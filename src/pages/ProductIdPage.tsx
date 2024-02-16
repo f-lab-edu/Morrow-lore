@@ -47,21 +47,24 @@ const StyledProductName = styled.h2`
 `;
 
 const StyledProductPrice = styled.p`
-  margin-right: 10px;
-  &:nth-of-type(1) {
-    text-decoration: line-through;
-    font-size: 0.9rem;
-    color: rgb(29, 29, 31, 0.7);
-  }
-  &:nth-of-type(2) {
-    font-size: 1rem;
-    font-weight: 600;
-    color: rgb(29, 29, 31, 0.9);
-  }
-  &:nth-of-type(3) {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #df3409;
+  margin-bottom: 10px;
+  span {
+    margin-right: 10px;
+    &:nth-of-type(1) {
+      text-decoration: line-through;
+      font-size: 0.9rem;
+      color: rgb(29, 29, 31, 0.7);
+    }
+    &:nth-of-type(2) {
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgb(29, 29, 31, 0.9);
+    }
+    &:nth-of-type(3) {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #df3409;
+    }
   }
 `;
 
