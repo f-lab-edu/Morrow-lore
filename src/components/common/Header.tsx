@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 import Icon from '@mdi/react';
 import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from '@mdi/js';
-import styled from 'styled-components';
 import { ROUTES } from '../../routes/ManageCenterRotue';
+import { getCart } from '../../api/cart/getCart';
 
 const StyleHeader = styled.header`
   position: fixed;
@@ -52,8 +53,8 @@ const StyleGnb = styled.nav`
   margin-left: auto;
   color: #1d1d1f;
 
-  a,
-  button {
+  a {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -62,7 +63,47 @@ const StyleGnb = styled.nav`
   }
 `;
 
+const StyledHeaderButton = styled.button`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+`;
+
+const StyledHeaderBedge = styled.div`
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: rgb(223, 52, 9, 0.85);
+  color: #f5f5f7;
+  font-size: 12px;
+  top: -10px;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Header: React.FC = () => {
+  const [cartNum, setCartNum] = useState(0);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const carts = await getCart();
+        const cartsData = carts.data;
+        setCartNum(cartsData.length);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  });
+
   return (
     <StyleHeader>
       <StyleLogo to={ROUTES.HOME}>
@@ -80,11 +121,16 @@ const Header: React.FC = () => {
           <span className="hidden">로그인</span>
           <Icon path={mdiAccountCircleOutline} size={1.1} />
         </NavLink>
-        <button type="button">
+        <StyledHeaderButton type="button">
           <span className="hidden">검색</span>
           <Icon path={mdiMagnify} size={1.1} />
-        </button>
+        </StyledHeaderButton>
         <NavLink to={ROUTES.CART}>
+          {cartNum > 0 && (
+            <StyledHeaderBedge className="bedge">
+              <p>{cartNum}</p>
+            </StyledHeaderBedge>
+          )}
           <span className="hidden">장바구니</span>
           <Icon path={mdiCartOutline} size={1.1} />
         </NavLink>

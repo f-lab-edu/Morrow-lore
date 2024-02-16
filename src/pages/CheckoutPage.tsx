@@ -11,20 +11,20 @@ const StyleCheckout = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
 
-  > article {
-    width: 50%;
-    height: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+const StyledCheckoutContent = styled.article`
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
-    > p {
-      font-size: 3rem;
-      font-weight: 700;
-    }
-  }
+const StyledCheckoutfont = styled.p`
+  font-size: 3rem;
+  font-weight: 700;
 `;
 
 const CheckoutPage: React.FC = () => {
@@ -60,13 +60,13 @@ const CheckoutPage: React.FC = () => {
 
   return (
     <StyleCheckout>
-      <article>
-        <p>{totalAmount} 원</p>
-        <article>
+      <StyledCheckoutContent>
+        <StyledCheckoutfont>{totalAmount} 원</StyledCheckoutfont>
+        <StyledCheckoutContent>
           <h2>포인트</h2>
           <input type="number" name="point" id="point" />
-        </article>
-        <article>
+        </StyledCheckoutContent>
+        <StyledCheckoutContent>
           <h2>쿠폰</h2>
           <input type="text" name="coupon" />
           <div className="couponWrap">
@@ -74,7 +74,7 @@ const CheckoutPage: React.FC = () => {
             <input type="radio" name="coupon" id="new2" />
             <input type="radio" name="coupon" id="new3" />
           </div>
-        </article>
+        </StyledCheckoutContent>
         <button
           onClick={() => {
             handlePaymentClick();
@@ -82,7 +82,7 @@ const CheckoutPage: React.FC = () => {
         >
           결제수단
         </button>
-      </article>
+      </StyledCheckoutContent>
     </StyleCheckout>
   );
 };
