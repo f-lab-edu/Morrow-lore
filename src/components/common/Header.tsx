@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Icon from '@mdi/react';
 import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from '@mdi/js';
 import { ROUTES } from '../../routes/ManageCenterRotue';
-import { getCart } from '../../api/cart/getCart';
+import { useCart } from '../../api/context/CartContext';
 
 const StyleHeader = styled.header`
   position: fixed;
@@ -88,21 +88,7 @@ const StyledHeaderBedge = styled.div`
 `;
 
 const Header: React.FC = () => {
-  const [cartNum, setCartNum] = useState(0);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const carts = await getCart();
-        const cartsData = carts.data;
-        setCartNum(cartsData.length);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  });
+  const { cartNum } = useCart();
 
   return (
     <StyleHeader>

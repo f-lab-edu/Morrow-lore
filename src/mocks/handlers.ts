@@ -324,44 +324,39 @@ export const handlers = [
   http.get(`/api/products/:productId`, ({ params }) => {
     const { productId } = params;
     try {
-      const result = products;
-      const detailResult = result.filter((x) => {
-        if (x.id === parseInt(productId)) {
-          return x;
-        }
-      });
-      return HttpResponse.json(detailResult[0]);
+      const product = products.find((x) => x.id === parseInt(productId));
+      return HttpResponse.json(product);
     } catch (error) {
       return HttpResponse.error();
     }
   }),
-  http.post(`/api/cart`, async ({ request }) => {
-    const product = await request.json();
+  http.put(`/api/cart`, async ({ request }) => {
+    const productData = await request.json();
+    const product = productData.product;
+
     try {
       cart.push(product);
       localStorage.setItem('myCart', JSON.stringify(cart));
-      return HttpResponse.json({ product });
+      return HttpResponse.json(cart);
     } catch (error) {
       return HttpResponse.error();
     }
   }),
   http.get(`/api/cart`, () => {
     try {
-      return HttpResponse.json(JSON.parse(localStorage.getItem('myCart')));
+      const itemInCarts = JSON.parse(localStorage.getItem('myCart'));
+      return HttpResponse.json(itemInCarts);
     } catch (error) {
       return HttpResponse.error();
     }
   }),
   http.delete(`/api/cart`, async ({ request }) => {
-    const product = await request.json();
+    const productData = await request.json();
     try {
-      const newCart = cart.filter((x) => {
-        if (x.product.id !== product.product.id) {
-          return x;
-        }
-      });
+      let cart = JSON.parse(localStorage.getItem('myCart')) || [];
+      const newCart = cart.filter((item) => item.id !== productData.id);
       localStorage.setItem('myCart', JSON.stringify(newCart));
-      return HttpResponse.json({ newCart });
+      return HttpResponse.json(newCart);
     } catch (error) {
       return HttpResponse.error();
     }

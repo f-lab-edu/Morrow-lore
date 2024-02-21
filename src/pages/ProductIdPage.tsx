@@ -4,9 +4,9 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ROUTES } from '../routes/ManageCenterRotue';
+import { useCart } from '../api/context/CartContext';
 import { getTheProduct } from '../api/products/getProductsId';
-import { deleteCarts } from '../api/cart/deleteCarts';
-import { postCarts } from '../api/cart/postCarts';
+import { putCarts } from '../api/cart/putCarts';
 
 interface Product {
   photo?: string;
@@ -91,7 +91,7 @@ const SingleDetailPage: React.FC = () => {
   const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
   const [product, setProducts] = useState<Product>({});
-  const [inCart, setInCart] = useState(false);
+  const { cartNum, setCartNum } = useCart();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,13 +106,12 @@ const SingleDetailPage: React.FC = () => {
     fetchData();
   }, [itemId]);
 
-  const handleCartClick = async (product: object) => {
-    if (inCart === false) {
-      setInCart(true);
-      await postCarts(product);
-    } else {
-      setInCart(false);
-      await deleteCarts(product);
+  const handleCartClick = async (product: Product) => {
+    try {
+      await putCarts(product);
+      setCartNum(cartNum + 1);
+    } catch (error) {
+      console.error('장바구니 추가 실패', error);
     }
   };
 

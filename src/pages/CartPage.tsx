@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { getCart } from '../api/cart/getCart';
 
 const CartPage: React.FC = () => {
   const [carts, setCarts] = useState([]);
@@ -10,8 +9,9 @@ const CartPage: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const myCart = await getCart();
-        setCarts(myCart);
+        const response = await fetch(`/api/cart`);
+        const cartItems = await response.json();
+        setCarts(cartItems);
       } catch (error) {
         console.error(error);
       }
