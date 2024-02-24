@@ -16,15 +16,18 @@
     "@mdi/react": "^1.6.1",
     "@reduxjs/toolkit": "^2.1.0",
     "@types/react-slick": "^0.23.13",
+    "@types/uuid": "^9.0.8",
     "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.0",
     "react-slick": "^0.29.0",
+    "react-toastify": "^10.0.4",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.8",
-    "unsplash-js": "^7.0.19"
+    "unsplash-js": "^7.0.19",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
