@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../routes/ManageCenterRotue';
-import CreatedUUID from '../components/utility/CreatedUUID';
+import { useCart } from '../api/context/CartContext';
+import { useQueryClient } from '@tanstack/react-query';
 
 const StyledCartWrap = styled.section`
   width: 100%;
   height: 100vh;
   padding: 53px 0;
   display: flex;
-  justify-content: space-around;
-  align-items: center;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 `;
 
 const StyledCartTitle = styled.h2`
@@ -20,32 +20,36 @@ const StyledCartTitle = styled.h2`
 `;
 
 const StyledCartListWrap = styled.ul`
-  width: auto;
+  width: 80%;
+  max-width: 800px;
   height: 400px;
   overflow: auto;
   border: 1px solid rgb(29, 29, 31, 0.15);
   border-radius: 7px;
-
-  li {
-    width: 100%;
-    display: flex;
-    align-items: top;
-    justify-content: center;
-    padding: 1rem;
-    border-bottom: 1px solid rgb(29, 29, 31, 0.15);
-  }
+  list-style: none;
+  padding: 0;
 `;
 
-const StyledCartInputWrap = styled.div`
-  position: relative;
+const StyledCartItem = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgb(29, 29, 31, 0.15);
+
+  &:last-child {
+    border-bottom: none;
+  }
 `;
 
 const StyledCartContentWrap = styled.div`
   display: flex;
+  align-items: center;
 
   img {
-    width: 10%;
-    margin: 0 1rem;
+    width: 60px;
+    height: 60px;
+    margin-right: 1rem;
   }
 `;
 
@@ -58,128 +62,58 @@ const StyledCartTotalPrice = styled.div`
   font-weight: 600;
 `;
 
+const CartButton = styled.button`
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0 5px;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
 const CartPage: React.FC = () => {
-  const [carts, setCarts] = useState([]);
-  const [selectedItems, setSelectedItems] = useState({});
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/cart`);
-        const cartItems = await response.json();
-        const aggregatedItems = aggregateCartItems(cartItems);
-        setCarts(aggregatedItems);
-
-        const initialSelectedItems = aggregatedItems.reduce((acc, item) => {
-          acc[item.id] = item.price * item.quantity;
-          return acc;
-        }, {});
-        setSelectedItems(initialSelectedItems);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const removeItemFromCart = (id) => {
-    const filteredCarts = carts.filter((item) => item.id !== id);
-    setCarts(filteredCarts);
-
-    const newSelectedItems = { ...selectedItems };
-    delete newSelectedItems[id];
-    setSelectedItems(newSelectedItems);
-  };
-
-  const aggregateCartItems = (items) => {
-    const productMap = new Map();
-
-    items.forEach((item) => {
-      if (productMap.has(item.id)) {
-        const existingItem = productMap.get(item.id);
-        productMap.set(item.id, {
-          ...item,
-          quantity: existingItem.quantity + 1,
-          price: existingItem.price + item.price,
-        });
-      } else {
-        productMap.set(item.id, { ...item, quantity: 1 });
-      }
-    });
-
-    return Array.from(productMap.values());
-  };
-
-  const handleCheckboxChange = (id, isChecked, price, quantity) => {
-    setSelectedItems((prev) => {
-      const newSelectedItems = { ...prev };
-      if (isChecked) {
-        newSelectedItems[id] = price * quantity;
-      } else {
-        delete newSelectedItems[id];
-      }
-      return newSelectedItems;
-    });
-  };
-
-  const calculateTotalPrice = () => {
-    return Object.values(selectedItems).reduce(
-      (total, price) => total + price,
-      0,
-    );
-  };
-
-  const handleCheckoutClick = () => {
-    navigate(ROUTES.CHECKOUT);
-  };
+  const {
+    cartItems,
+    calculateTotalPrice,
+    addProductToCart,
+    removeProductFromCart,
+  } = useCart();
 
   return (
     <StyledCartWrap>
-      <StyledCartTitle>장바구니 조회</StyledCartTitle>
-      <CreatedUUID></CreatedUUID>
+      <StyledCartTitle>장바구니</StyledCartTitle>
       <StyledCartListWrap>
-        {carts.length > 0 ? (
-          carts.map((product) => (
-            <li key={product.id}>
-              <StyledCartInputWrap>
-                <input
-                  type="checkbox"
-                  name="cart"
-                  id={`cart_${product.id}`}
-                  defaultChecked={true}
-                  onChange={(e) =>
-                    handleCheckboxChange(
-                      product.id,
-                      e.target.checked,
-                      product.price,
-                      product.quantity,
-                    )
-                  }
-                />
-                <label htmlFor={`cart_${product.id}`}></label>
-              </StyledCartInputWrap>
-              <StyledCartContentWrap>
-                <img src={product.photo} alt={product.name} />
-                <p>{`${product.name} (수량: ${product.quantity})`}</p>
-              </StyledCartContentWrap>
-              <StyledCartPrice>
-                가격: {new Intl.NumberFormat().format(product.price)}원
-              </StyledCartPrice>
-              <button onClick={() => removeItemFromCart(product.id)}>
+        {cartItems.map((item, index) => (
+          <StyledCartItem key={`${item.id}-${index}`}>
+            <StyledCartContentWrap>
+              <img src={item.photo} alt={item.name} />
+              <div>
+                <p>{item.name}</p>
+                <StyledCartPrice>가격: {item.price}원</StyledCartPrice>
+                <p>수량: {item.quantity}</p>
+              </div>
+            </StyledCartContentWrap>
+            <div>
+              <CartButton onClick={() => addProductToCart(item)}>
+                추가
+              </CartButton>
+              <CartButton onClick={() => removeProductFromCart(item.id)}>
                 제거
-              </button>
-            </li>
-          ))
-        ) : (
-          <p>장바구니에 담긴 상품이 없습니다.</p>
-        )}
+              </CartButton>
+            </div>
+          </StyledCartItem>
+        ))}
       </StyledCartListWrap>
       <StyledCartTotalPrice>
-        총 가격: {new Intl.NumberFormat().format(calculateTotalPrice())}원
+        총 가격: {calculateTotalPrice()}원
       </StyledCartTotalPrice>
-      <button onClick={handleCheckoutClick}>결제하기</button>
+      <CartButton onClick={() => navigate('/checkout')}>결제하기</CartButton>
     </StyledCartWrap>
   );
 };
