@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-export const deleteCarts = async (product: object) => {
-  const url = '/api/cart';
-  const response = await axios.delete(url, { data: { product: product } });
-  return response;
+export const deleteCarts = async (productId: number) => {
+  const url = `/api/cart/${productId}`;
+  const response = await axios.delete(url);
+  return response.data;
 };

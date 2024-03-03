@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -123,9 +124,16 @@ const StyledListContents = styled.span`
   }
 `;
 
-const ProductPage: React.FC = () => {
-  const [products, setProducts] = useState([]);
+const ProductPage: React.FC = (): any => {
   const navigate = useNavigate();
+  const {
+    data: products,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  });
 
   const colorSet = [
     { color: 'red', value: '레드' },
@@ -137,24 +145,11 @@ const ProductPage: React.FC = () => {
     { color: 'purple', value: '퍼플' },
   ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const products = await getProducts();
-        setProducts(products.data.result);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [setProducts]);
-
   const handleProductClick = (productId: number) => {
     navigate(ROUTES.PRODUCTID(productId));
   };
 
-  const handleDiscount = (price, sales) => {
+  const handleDiscount = (price: number, sales: number) => {
     const discountAmount = price * (sales / 100);
     return price - discountAmount;
   };
@@ -178,26 +173,35 @@ const ProductPage: React.FC = () => {
       </StyledFilter>
 
       <StyledScrollArea>
-        {products.map((product) => (
-          <div
-            key={product.id}
-            onClick={() => handleProductClick(product.id)}
-            style={{ cursor: 'pointer' }}
-          >
-            <StyledListImg src={product.photo} alt={product.name} />
-            <h3>{product.name}</h3>
-            <p>
-              <StyledListContents>
-                {product.price.toLocaleString()} 원
-              </StyledListContents>
-              <StyledListContents>
-                {handleDiscount(product.price, product.sales).toLocaleString()}
-                원
-              </StyledListContents>
-              <StyledListContents>[{product.sales}%]</StyledListContents>
-            </p>
-          </div>
-        ))}
+        {isLoading ? (
+          <div>Loading...</div>
+        ) : error ? (
+          <div>Error loading products</div>
+        ) : (
+          products?.map((product) => (
+            <div
+              key={product.id}
+              onClick={() => handleProductClick(product.id)}
+              style={{ cursor: 'pointer' }}
+            >
+              <StyledListImg src={product.photo} alt={product.name} />
+              <h3>{product.name}</h3>
+              <p>
+                <StyledListContents>
+                  {product.price.toLocaleString()} 원
+                </StyledListContents>
+                <StyledListContents>
+                  {handleDiscount(
+                    product.price,
+                    product.sales,
+                  ).toLocaleString()}{' '}
+                  원
+                </StyledListContents>
+                <StyledListContents>[{product.sales}%]</StyledListContents>
+              </p>
+            </div>
+          ))
+        )}
       </StyledScrollArea>
     </StyleProducts>
   );

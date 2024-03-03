@@ -1,19 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import styled from 'styled-components';
-
-import { ROUTES } from '../routes/ManageCenterRotue';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useCart } from '../api/context/CartContext';
 import { getTheProduct } from '../api/products/getProductsId';
-import { deleteCarts } from '../api/cart/deleteCarts';
-import { postCarts } from '../api/cart/postCarts';
-
-interface Product {
-  photo?: string;
-  name?: string;
-  price?: number;
-  sales?: number;
-}
+import { putCarts } from '../api/cart/putCarts';
+import styled from 'styled-components';
 
 const StyleProduct = styled.section`
   width: 100%;
@@ -27,11 +18,13 @@ const StyledProductWrap = styled.article`
   padding: 103px calc((100% - 1024px) / 2);
   display: flex;
 `;
+
 const StyledProductImg = styled.img`
   width: 60%;
   height: 100%;
   object-fit: contain;
 `;
+
 const StyledProductOption = styled.div`
   width: 40%;
   height: auto;
@@ -88,51 +81,41 @@ const StyledProductSubmitButton = styled.button`
 `;
 
 const SingleDetailPage: React.FC = () => {
-  const navigate = useNavigate();
   const { itemId } = useParams<{ itemId: string }>();
-  const [product, setProducts] = useState<Product>({});
-  const [inCart, setInCart] = useState(false);
+  const { addProductToCart } = useCart();
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const item = await getTheProduct(itemId);
-        setProducts(item.data);
-      } catch (error) {
-        console.error(error);
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ['product', itemId],
+    queryFn: () => getTheProduct(itemId!),
+    enabled: !!itemId,
+  });
+
+  const cartMutation = useMutation({
+    mutationFn: putCarts,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+      if (product) {
+        addProductToCart(product);
       }
-    };
+    },
+  });
 
-    fetchData();
-  }, [itemId]);
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>상품 정보를 가져올 수 없습니다.</div>;
+  if (!product) return <div>상품 정보가 없습니다.</div>;
 
-  const handleCartClick = async (product: object) => {
-    if (inCart === false) {
-      setInCart(true);
-      await postCarts(product);
-    } else {
-      setInCart(false);
-      await deleteCarts(product);
-    }
+  const handleAddToCart = () => {
+    cartMutation.mutate({ product });
   };
 
   const handleDiscount = (price: number, sales: number) => {
-    const discountAmount = price * (sales / 100);
-    return price - discountAmount;
+    return price - (price * sales) / 100;
   };
-
-  const handleGoCartClick = () => {
-    navigate(ROUTES.CHECKOUT);
-  };
-
-  if (
-    !product ||
-    !product.name ||
-    product.price === undefined ||
-    product.sales === undefined
-  ) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <StyleProduct>
@@ -143,19 +126,13 @@ const SingleDetailPage: React.FC = () => {
           <StyledProductPrice>
             <span>{product.price.toLocaleString()} 원</span>
             <span>
-              {handleDiscount(product.price, product.sales).toLocaleString()}원
+              {handleDiscount(product.price, product.sales).toLocaleString()} 원
             </span>
-            <span>[{product.sales}%]</span>
+            <span>[{product.sales}% 할인]</span>
           </StyledProductPrice>
-
-          <div className="submitWrap">
-            <StyledProductSubmitButton onClick={() => handleCartClick(product)}>
-              장바구니 담기
-            </StyledProductSubmitButton>
-            <StyledProductSubmitButton onClick={() => handleGoCartClick()}>
-              결제하기
-            </StyledProductSubmitButton>
-          </div>
+          <StyledProductSubmitButton onClick={handleAddToCart}>
+            장바구니 담기
+          </StyledProductSubmitButton>
         </StyledProductOption>
       </StyledProductWrap>
     </StyleProduct>
