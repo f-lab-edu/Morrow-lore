@@ -5,8 +5,9 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
-import axios from 'axios';
 import { getCarts } from '../cart/getCarts';
+import { deleteCarts } from '../cart/deleteCarts';
+import { putCarts } from '../cart/putCarts';
 
 interface CartItem {
   id: number;
@@ -58,30 +59,57 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const addProductToCart = async (product: CartItem) => {
+    const existingProductIndex = cartItems.findIndex(
+      (item) => item.id === product.id,
+    );
+    let newCartItems = [...cartItems];
+
+    if (existingProductIndex >= 0) {
+      const existingProduct = newCartItems[existingProductIndex];
+      const updatedProduct = {
+        ...existingProduct,
+        quantity: existingProduct.quantity + 1,
+      };
+      newCartItems[existingProductIndex] = updatedProduct;
+    } else {
+      newCartItems.push({ ...product, quantity: 1 });
+    }
+
+    setCartItems(newCartItems);
+    calculateTotalAmount(newCartItems);
+
     try {
-      await axios.put('/api/cart', { product });
-      const newCartItems = [...cartItems, product];
-      setCartItems(newCartItems);
-      setCartNum(newCartItems.reduce((acc, item) => acc + item.quantity, 0));
-      calculateTotalAmount(newCartItems);
+      const updatedProduct = {
+        ...product,
+        quantity: newCartItems[existingProductIndex]?.quantity || 1,
+      };
+      const response = await putCarts(updatedProduct);
+      console.log(response.message);
     } catch (error) {
-      console.error('장바구니 추가 실패', error);
+      console.error('장바구니 업데이트 실패', error);
     }
   };
 
   const removeProductFromCart = async (productId: number) => {
-    try {
-      await axios.delete('/api/cart', { data: { productId } });
+    const existingProduct = cartItems.find((item) => item.id === productId);
+
+    if (!existingProduct || existingProduct.quantity <= 1) {
+      await deleteCarts(productId);
       const updatedCartItems = cartItems.filter(
         (item) => item.id !== productId,
       );
       setCartItems(updatedCartItems);
-      setCartNum(
-        updatedCartItems.reduce((acc, item) => acc + item.quantity, 0),
-      );
       calculateTotalAmount(updatedCartItems);
-    } catch (error) {
-      console.error('장바구니 제거 실패', error);
+    } else {
+      const updatedCartItems = cartItems.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity - 1 } : item,
+      );
+      await putCarts({
+        ...existingProduct,
+        quantity: existingProduct.quantity - 1,
+      });
+      setCartItems(updatedCartItems);
+      calculateTotalAmount(updatedCartItems);
     }
   };
 

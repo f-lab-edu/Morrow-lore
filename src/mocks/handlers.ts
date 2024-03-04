@@ -358,15 +358,22 @@ export const handlers = [
       return HttpResponse.error();
     }
   }),
-  // http.delete(`/api/cart`, async ({ request }) => {
-  //   const productData = await request.json();
-  //   try {
-  //     let cart = JSON.parse(localStorage.getItem('myCart')) || [];
-  //     const newCart = cart.filter((item) => item.id !== productData.id);
-  //     localStorage.setItem('myCart', JSON.stringify(newCart));
-  //     return HttpResponse.json({ newCart });
-  //   } catch (error) {
-  //     return HttpResponse.error();
-  //   }
-  // }),
+  http.delete(`/api/cart`, async ({ request }) => {
+    const productData = (await request.json()) as { id: number } | null;
+
+    if (productData && typeof productData.id === 'number') {
+      try {
+        const cart: Product[] = JSON.parse(
+          localStorage.getItem('myCart') ?? '[]',
+        );
+        const newCart = cart.filter((item) => item.id !== productData.id);
+        localStorage.setItem('myCart', JSON.stringify(newCart));
+        return HttpResponse.json({ newCart });
+      } catch (error) {
+        return HttpResponse.error();
+      }
+    } else {
+      return HttpResponse.error();
+    }
+  }),
 ];

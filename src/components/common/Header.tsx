@@ -88,7 +88,8 @@ const StyledHeaderBedge = styled.div`
 `;
 
 const Header: React.FC = () => {
-  const { cartNum } = useCart();
+  const { cartItems } = useCart();
+  const cartNum = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
     <StyleHeader>
@@ -104,20 +105,17 @@ const Header: React.FC = () => {
 
       <StyleGnb>
         <NavLink to={ROUTES.LOGINL}>
-          <span className="hidden">로그인</span>
           <Icon path={mdiAccountCircleOutline} size={1.1} />
         </NavLink>
         <StyledHeaderButton type="button">
-          <span className="hidden">검색</span>
           <Icon path={mdiMagnify} size={1.1} />
         </StyledHeaderButton>
         <NavLink to={ROUTES.CART}>
           {cartNum > 0 && (
-            <StyledHeaderBedge className="bedge">
+            <StyledHeaderBedge>
               <p>{cartNum}</p>
             </StyledHeaderBedge>
           )}
-          <span className="hidden">장바구니</span>
           <Icon path={mdiCartOutline} size={1.1} />
         </NavLink>
       </StyleGnb>
