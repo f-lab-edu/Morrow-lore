@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCart } from '../api/context/CartContext';
+import { toast } from 'react-toastify';
 import { getTheProduct } from '../api/products/getProductsId';
 import { putCarts } from '../api/cart/putCarts';
 import styled from 'styled-components';
@@ -101,6 +102,7 @@ const SingleDetailPage: React.FC = () => {
       queryClient.invalidateQueries({ queryKey: ['cartItems'] });
       if (product) {
         addProductToCart(product);
+        toast('장바구니에 상품이 추가되었습니다.');
       }
     },
   });

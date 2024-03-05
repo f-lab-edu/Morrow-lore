@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../api/context/CartContext';
-import { useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-toastify';
 
 const StyledCartWrap = styled.section`
   width: 100%;
@@ -42,6 +42,10 @@ const StyledCartItem = styled.li`
   }
 `;
 
+const StyledCartInputWrap = styled.div`
+  display: flex;
+`;
+
 const StyledCartContentWrap = styled.div`
   display: flex;
   align-items: center;
@@ -78,35 +82,79 @@ const CartButton = styled.button`
 
 const CartPage: React.FC = () => {
   const navigate = useNavigate();
-  const { cartItems, totalAmount, addProductToCart, removeProductFromCart } =
-    useCart();
+  const { cartItems, addProductToCart, removeProductFromCart } = useCart();
+  const [selectedItems, setSelectedItems] = useState<{ [id: number]: boolean }>(
+    {},
+  );
+
+  useEffect(() => {
+    const initialSelectedItems = cartItems.reduce(
+      (acc, item) => ({
+        ...acc,
+        [item.id]: true,
+      }),
+      {},
+    );
+    setSelectedItems(initialSelectedItems);
+  }, [cartItems]);
+
+  const handleCheckboxChange = (id: number) => {
+    setSelectedItems((prev) => ({ ...prev, [id]: !prev[id] }));
+  };
+
+  const removeItemWithToast = (productId: number) => {
+    removeProductFromCart(productId);
+    toast('상품이 제거되었습니다.');
+  };
+
+  const calculatedTotalAmount = cartItems.reduce((acc, item) => {
+    if (selectedItems[item.id]) {
+      return acc + item.price * item.quantity * (1 - item.sales / 100);
+    }
+    return acc;
+  }, 0);
 
   return (
     <StyledCartWrap>
       <StyledCartTitle>장바구니</StyledCartTitle>
       <StyledCartListWrap>
-        {cartItems.map((item, index) => (
-          <StyledCartItem key={`${item.id}-${index}`}>
-            <StyledCartContentWrap>
-              <img src={item.photo} alt={item.name} />
+        {cartItems.length > 0 ? (
+          cartItems.map((item, index) => (
+            <StyledCartItem key={`${item.id}-${index}`}>
+              <StyledCartInputWrap>
+                <input
+                  type="checkbox"
+                  name="cartlist"
+                  checked={selectedItems[item.id] ?? false}
+                  onChange={() => handleCheckboxChange(item.id)}
+                  id={`${item.id}-${index}`}
+                />
+              </StyledCartInputWrap>
+              <StyledCartContentWrap>
+                <img src={item.photo} alt={item.name} />
+                <div>
+                  <p>{item.name}</p>
+                  <StyledCartPrice>가격: {item.price}원</StyledCartPrice>
+                  <p>수량: {item.quantity}</p>
+                </div>
+              </StyledCartContentWrap>
               <div>
-                <p>{item.name}</p>
-                <StyledCartPrice>가격: {item.price}원</StyledCartPrice>
-                <p>수량: {item.quantity}</p>
+                <CartButton onClick={() => addProductToCart(item)}>
+                  추가
+                </CartButton>
+                <CartButton onClick={() => removeItemWithToast(item.id)}>
+                  제거
+                </CartButton>
               </div>
-            </StyledCartContentWrap>
-            <div>
-              <CartButton onClick={() => addProductToCart(item)}>
-                추가
-              </CartButton>
-              <CartButton onClick={() => removeProductFromCart(item.id)}>
-                제거
-              </CartButton>
-            </div>
-          </StyledCartItem>
-        ))}
+            </StyledCartItem>
+          ))
+        ) : (
+          <li>상품 정보가 없습니다.</li>
+        )}
       </StyledCartListWrap>
-      <StyledCartTotalPrice>총 가격: {totalAmount}원</StyledCartTotalPrice>
+      <StyledCartTotalPrice>
+        총 가격: {calculatedTotalAmount.toLocaleString()}원
+      </StyledCartTotalPrice>
       <CartButton onClick={() => navigate('/checkout')}>결제하기</CartButton>
     </StyledCartWrap>
   );
