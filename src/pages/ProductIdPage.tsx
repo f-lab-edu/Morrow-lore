@@ -110,7 +110,7 @@ const SingleDetailPage: React.FC = () => {
   if (!product) return <div>상품 정보가 없습니다.</div>;
 
   const handleAddToCart = () => {
-    cartMutation.mutate({ product });
+    cartMutation.mutate(product);
   };
 
   const handleDiscount = (price: number, sales: number) => {

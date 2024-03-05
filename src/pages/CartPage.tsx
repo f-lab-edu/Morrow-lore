@@ -78,12 +78,8 @@ const CartButton = styled.button`
 
 const CartPage: React.FC = () => {
   const navigate = useNavigate();
-  const {
-    cartItems,
-    calculateTotalPrice,
-    addProductToCart,
-    removeProductFromCart,
-  } = useCart();
+  const { cartItems, totalAmount, addProductToCart, removeProductFromCart } =
+    useCart();
 
   return (
     <StyledCartWrap>
@@ -110,9 +106,7 @@ const CartPage: React.FC = () => {
           </StyledCartItem>
         ))}
       </StyledCartListWrap>
-      <StyledCartTotalPrice>
-        총 가격: {calculateTotalPrice()}원
-      </StyledCartTotalPrice>
+      <StyledCartTotalPrice>총 가격: {totalAmount}원</StyledCartTotalPrice>
       <CartButton onClick={() => navigate('/checkout')}>결제하기</CartButton>
     </StyledCartWrap>
   );

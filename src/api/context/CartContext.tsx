@@ -76,41 +76,32 @@ const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     setCartItems(newCartItems);
-    calculateTotalAmount(newCartItems);
-
-    try {
-      const updatedProduct = {
-        ...product,
-        quantity: newCartItems[existingProductIndex]?.quantity || 1,
-      };
-      const response = await putCarts(updatedProduct);
-      console.log(response.message);
-    } catch (error) {
-      console.error('장바구니 업데이트 실패', error);
-    }
+    localStorage.setItem('myCart', JSON.stringify(newCartItems));
+    updateCartState(newCartItems);
   };
 
   const removeProductFromCart = async (productId: number) => {
-    const existingProduct = cartItems.find((item) => item.id === productId);
+    let newCartItems = [...cartItems];
+    const existingProductIndex = cartItems.findIndex(
+      (item) => item.id === productId,
+    );
 
-    if (!existingProduct || existingProduct.quantity <= 1) {
-      await deleteCarts(productId);
-      const updatedCartItems = cartItems.filter(
-        (item) => item.id !== productId,
-      );
-      setCartItems(updatedCartItems);
-      calculateTotalAmount(updatedCartItems);
-    } else {
-      const updatedCartItems = cartItems.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity - 1 } : item,
-      );
-      await putCarts({
-        ...existingProduct,
-        quantity: existingProduct.quantity - 1,
-      });
-      setCartItems(updatedCartItems);
-      calculateTotalAmount(updatedCartItems);
+    if (existingProductIndex >= 0) {
+      const existingProduct = newCartItems[existingProductIndex];
+      if (existingProduct.quantity > 1) {
+        const updatedProduct = {
+          ...existingProduct,
+          quantity: existingProduct.quantity - 1,
+        };
+        newCartItems[existingProductIndex] = updatedProduct;
+      } else {
+        newCartItems = newCartItems.filter((item) => item.id !== productId);
+      }
     }
+
+    setCartItems(newCartItems);
+    localStorage.setItem('myCart', JSON.stringify(newCartItems));
+    updateCartState(newCartItems);
   };
 
   const calculateTotalAmount = (items: CartItem[]) => {

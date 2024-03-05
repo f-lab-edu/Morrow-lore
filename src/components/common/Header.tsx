@@ -88,8 +88,7 @@ const StyledHeaderBedge = styled.div`
 `;
 
 const Header: React.FC = () => {
-  const { cartItems } = useCart();
-  const cartNum = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const { cartNum } = useCart();
 
   return (
     <StyleHeader>
