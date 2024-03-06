@@ -19,6 +19,7 @@ const response = await unsplash.search.getPhotos({
   query: 'sneakers',
   perPage: 41,
 });
+
 const photoUrls =
   response.response?.results.map((photo) => photo.urls.small) || [];
 
@@ -315,8 +316,7 @@ const products = [
 export const handlers = [
   http.get('/api/products', () => {
     try {
-      const result = products;
-      return HttpResponse.json({ result });
+      return HttpResponse.json(products);
     } catch (error) {
       return HttpResponse.error();
     }
@@ -324,45 +324,55 @@ export const handlers = [
   http.get(`/api/products/:productId`, ({ params }) => {
     const { productId } = params;
     try {
-      const result = products;
-      const detailResult = result.filter((x) => {
-        if (x.id === parseInt(productId)) {
-          return x;
-        }
-      });
-      return HttpResponse.json(detailResult[0]);
+      const id = parseInt(productId);
+      const product = products.find((x) => x.id === id);
+      return HttpResponse.json(product);
     } catch (error) {
       return HttpResponse.error();
     }
   }),
-  http.post(`/api/cart`, async ({ request }) => {
-    const product = await request.json();
-    try {
-      cart.push(product);
-      localStorage.setItem('myCart', JSON.stringify(cart));
-      return HttpResponse.json({ product });
-    } catch (error) {
+  http.put(`/api/cart`, async ({ request }) => {
+    const productData = await request.json();
+
+    if (
+      typeof productData === 'object' &&
+      productData !== null &&
+      'product' in productData
+    ) {
+      try {
+        cart.push(productData.product);
+        localStorage.setItem('myCart', JSON.stringify(cart));
+        return HttpResponse.json(cart);
+      } catch (error) {
+        return HttpResponse.error();
+      }
+    } else {
       return HttpResponse.error();
     }
   }),
   http.get(`/api/cart`, () => {
     try {
-      return HttpResponse.json(JSON.parse(localStorage.getItem('myCart')));
+      const itemInCarts = JSON.parse(localStorage.getItem('myCart') ?? '[]');
+      return HttpResponse.json(itemInCarts);
     } catch (error) {
       return HttpResponse.error();
     }
   }),
   http.delete(`/api/cart`, async ({ request }) => {
-    const product = await request.json();
-    try {
-      const newCart = cart.filter((x) => {
-        if (x.product.id !== product.product.id) {
-          return x;
-        }
-      });
-      localStorage.setItem('myCart', JSON.stringify(newCart));
-      return HttpResponse.json({ newCart });
-    } catch (error) {
+    const productData = (await request.json()) as { id: number } | null;
+
+    if (productData && typeof productData.id === 'number') {
+      try {
+        const cart: Product[] = JSON.parse(
+          localStorage.getItem('myCart') ?? '[]',
+        );
+        const newCart = cart.filter((item) => item.id !== productData.id);
+        localStorage.setItem('myCart', JSON.stringify(newCart));
+        return HttpResponse.json({ newCart });
+      } catch (error) {
+        return HttpResponse.error();
+      }
+    } else {
       return HttpResponse.error();
     }
   }),
