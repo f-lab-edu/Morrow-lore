@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+
+import { ROUTES } from '../routes/ManageCenterRotue';
 
 const StyledLogin = styled.section`
   width: 100%;
@@ -61,6 +64,14 @@ const StyledLoginButton = styled.button`
 `;
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const handleLoginClick = () => {
+    navigate(ROUTES.HOME);
+  };
+  const handleSignupClick = () => {
+    navigate(ROUTES.SIGNUP);
+  };
+
   return (
     <StyledLogin>
       <h1>로그인</h1>
@@ -87,9 +98,13 @@ const LoginPage: React.FC = () => {
             />
           </li>
         </ul>
-        <StyledLoginButton type="submit">로그인</StyledLoginButton>
+        <StyledLoginButton type="submit" onClick={handleLoginClick}>
+          로그인
+        </StyledLoginButton>
       </StyledLoginForm>
-      <StyledLoginButton type="button">회원가입</StyledLoginButton>
+      <StyledLoginButton type="button" onClick={handleSignupClick}>
+        회원가입
+      </StyledLoginButton>
     </StyledLogin>
   );
 };
