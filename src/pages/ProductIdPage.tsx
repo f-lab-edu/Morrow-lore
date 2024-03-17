@@ -1,10 +1,10 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCart } from '../api/context/CartContext';
+import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
-import { getTheProduct } from '../api/products/getProductsId';
-import { putCarts } from '../api/cart/putCarts';
+import { getTheProduct } from '../api/productID/productIDAPI';
+import { putCarts } from '../api/cart/cartAPI';
 import styled from 'styled-components';
 
 const StyleProduct = styled.section`

@@ -18,7 +18,7 @@ const StyledLogin = styled.section`
 `;
 
 const StyledLoginForm = styled.form`
-  width: 30%;
+  width: 20%;
 
   ul {
     display: flex;
@@ -32,35 +32,55 @@ const StyledLoginForm = styled.form`
 `;
 
 const StyledLoginLabel = styled.label`
-  width: 80px;
+  width: 50%;
   font-weight: 500;
 `;
 
 const StyledLoginInput = styled.input`
+  width: 50%;
   &:required {
-    border: 2px solid green;
+    border: 1px solid green;
   }
 
   &:invalid {
-    border: 2px solid red;
+    border: 1px solid red;
   }
 
   &:valid {
-    border: 2px solid red;
+    border: 1px solid red;
   }
 `;
 
+const StyledLoginButtonBox = styled.div`
+  display: flex;
+`;
+
 const StyledLoginButton = styled.button`
-  display: block;
-  width: 100px;
-  text-align: center;
-  font-weight: 600;
-  padding: 10px;
   outline: none;
-  background: rgb(29, 29, 31, 0.1);
-  font-size: 1rem;
-  border: 1px solid rgb(29, 29, 31, 0.5);
-  margin: 1rem auto;
+  border: 1px solid rgb(29, 29, 31, 0.1);
+  padding: 10px 30px;
+  margin: 10px;
+
+  &:first-child {
+    font-weight: 600;
+    background-color: rgb(29, 29, 31, 0.1);
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(29, 29, 31, 0.3);
+    }
+  }
+
+  &:last-child {
+    font-weight: 600;
+    color: #f7f7f7;
+    background-color: rgb(82, 5, 123, 0.8);
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(82, 5, 123, 1);
+    }
+  }
 `;
 
 const LoginPage: React.FC = () => {
@@ -98,13 +118,15 @@ const LoginPage: React.FC = () => {
             />
           </li>
         </ul>
+      </StyledLoginForm>
+      <StyledLoginButtonBox>
         <StyledLoginButton type="submit" onClick={handleLoginClick}>
           로그인
         </StyledLoginButton>
-      </StyledLoginForm>
-      <StyledLoginButton type="button" onClick={handleSignupClick}>
-        회원가입
-      </StyledLoginButton>
+        <StyledLoginButton type="button" onClick={handleSignupClick}>
+          회원가입
+        </StyledLoginButton>
+      </StyledLoginButtonBox>
     </StyledLogin>
   );
 };

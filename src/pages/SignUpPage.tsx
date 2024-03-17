@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../routes/ManageCenterRotue';
+import { useSignupForm } from '../hooks/useSignUp';
 
 const StyledSignup = styled.section`
   width: 100%;
@@ -17,7 +18,7 @@ const StyledSignup = styled.section`
 `;
 
 const StyledSignupForm = styled.form`
-  width: 30%;
+  width: 20%;
 
   ul {
     display: flex;
@@ -25,109 +26,190 @@ const StyledSignupForm = styled.form`
 
     li {
       display: flex;
+      justify-content: space-between;
       margin-bottom: 10px;
     }
   }
 `;
 
 const StyledSignupLabel = styled.label`
-  width: 80px;
+  width: 50%;
   font-weight: 500;
 `;
 
 const StyledSignupInput = styled.input`
+  width: 100%;
+
   &:required {
-    border: 2px solid green;
+    border: 1px solid green;
   }
 
   &:invalid {
-    border: 2px solid red;
+    border: 1px solid red;
   }
 
   &:valid {
-    border: 2px solid red;
+    border: 1px solid red;
   }
+`;
+
+const StyledInputWrap = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+
+  p {
+    margin: 5px 0 10px;
+    font-size: 12px;
+    color: red;
+  }
+`;
+
+const StyledSignupButtonBox = styled.div`
+  display: flex;
+  width: 200px;
+  margin: 0 auto;
+  justify-content: space-between;
 `;
 
 const StyledSignupButton = styled.button`
   outline: none;
   border: 1px solid rgb(29, 29, 31, 0.1);
+  padding: 10px 30px;
+  margin: 10px;
+
+  &:first-child {
+    font-weight: 600;
+    background-color: rgb(29, 29, 31, 0.1);
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(29, 29, 31, 0.3);
+    }
+  }
+
+  &:last-child {
+    font-weight: 600;
+    color: #f7f7f7;
+    background-color: rgb(82, 5, 123, 0.8);
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(82, 5, 123, 1);
+    }
+  }
 `;
 
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
-  const handleSuccessClick = () => {
+  const { formValues, formErrors, handleChange, handleSubmit } =
+    useSignupForm(navigate);
+  const handleCancleClick = () => {
     navigate(ROUTES.LOGINL);
   };
 
   return (
     <StyledSignup>
       <h1>회원가입</h1>
-      <StyledSignupForm action="signup">
+      <StyledSignupForm onSubmit={handleSubmit}>
         <ul>
           <li>
-            <StyledSignupLabel htmlFor="inputId">이름</StyledSignupLabel>
-            <StyledSignupInput
-              type="text"
-              name="inputName"
-              id="inputName"
-              required
-            />
+            <StyledSignupLabel htmlFor="inputName">이름</StyledSignupLabel>
+            <StyledInputWrap>
+              <StyledSignupInput
+                type="text"
+                name="inputName"
+                id="inputName"
+                value={formValues.inputName}
+                onChange={handleChange}
+                required
+              />
+              {formErrors.inputName && <p>{formErrors.inputName}</p>}
+            </StyledInputWrap>
           </li>
           <li>
             <StyledSignupLabel htmlFor="inputId">아이디</StyledSignupLabel>
-            <StyledSignupInput
-              type="text"
-              name="inputId"
-              id="inputId"
-              required
-            />
+            <StyledInputWrap>
+              <StyledSignupInput
+                type="text"
+                name="inputId"
+                id="inputId"
+                value={formValues.inputId}
+                onChange={handleChange}
+                required
+              />
+              {formErrors.inputId && <p>{formErrors.inputId}</p>}
+            </StyledInputWrap>
           </li>
           <li>
             <StyledSignupLabel htmlFor="inputPassword">
               비밀번호
             </StyledSignupLabel>
-            <StyledSignupInput
-              type="password"
-              name="inputPassword"
-              id="inputPassword"
-              required
-            />
+            <StyledInputWrap>
+              <StyledSignupInput
+                type="password"
+                name="inputPassword"
+                id="inputPassword"
+                value={formValues.inputPassword}
+                onChange={handleChange}
+                required
+              />
+              {formErrors.inputPassword && <p>{formErrors.inputPassword}</p>}
+            </StyledInputWrap>
           </li>
           <li>
             <StyledSignupLabel htmlFor="inputPassword">
               비밀번호 확인
             </StyledSignupLabel>
-            <StyledSignupInput
-              type="password"
-              name="inputPasswordCheck"
-              id="inputPasswordCheck"
-              required
-            />
+            <StyledInputWrap>
+              <StyledSignupInput
+                type="password"
+                name="inputPasswordCheck"
+                id="inputPasswordCheck"
+                value={formValues.inputPasswordCheck}
+                onChange={handleChange}
+                required
+              />
+              {formErrors.inputPasswordCheck && (
+                <p>{formErrors.inputPasswordCheck}</p>
+              )}
+            </StyledInputWrap>
           </li>
           <li>
             <StyledSignupLabel htmlFor="inputEmail">이메일</StyledSignupLabel>
-            <StyledSignupInput
-              type="email"
-              name="inputEmail"
-              id="inputEmail"
-              required
-            />
+            <StyledInputWrap>
+              <StyledSignupInput
+                type="email"
+                name="inputEmail"
+                id="inputEmail"
+                value={formValues.inputEmail}
+                onChange={handleChange}
+                required
+              />
+              {formErrors.inputEmail && <p>{formErrors.inputEmail}</p>}
+            </StyledInputWrap>
           </li>
           <li>
             <StyledSignupLabel htmlFor="inputPhone">전화번호</StyledSignupLabel>
-            <StyledSignupInput
-              type="tel"
-              name="inputPhone"
-              id="inputPhone"
-              required
-            />
+            <StyledInputWrap>
+              <StyledSignupInput
+                type="tel"
+                name="inputPhone"
+                id="inputPhone"
+                value={formValues.inputPhone}
+                onChange={handleChange}
+                required
+              />
+              {formErrors.inputPhone && <p>{formErrors.inputPhone}</p>}
+            </StyledInputWrap>
           </li>
         </ul>
-        <StyledSignupButton type="submit" onClick={handleSuccessClick}>
-          완료
-        </StyledSignupButton>
-        <StyledSignupButton type="reset">취소</StyledSignupButton>
+        <StyledSignupButtonBox>
+          <StyledSignupButton type="button" onClick={handleCancleClick}>
+            취소
+          </StyledSignupButton>
+          <StyledSignupButton type="submit">완료</StyledSignupButton>
+        </StyledSignupButtonBox>
       </StyledSignupForm>
     </StyledSignup>
   );

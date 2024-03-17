@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { getProducts } from '../api/products/getProducts';
+import { getProducts } from '../api/products/productsAPI';
 
 const StyleProducts = styled.section`
   display: flex;

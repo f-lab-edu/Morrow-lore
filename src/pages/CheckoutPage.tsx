@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { useCart } from '../api/context/CartContext';
+import { useCart } from '../context/CartContext';
 
 const StyleCheckout = styled.section`
   width: 100%;

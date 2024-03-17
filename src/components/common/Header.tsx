@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import Icon from '@mdi/react';
 import { mdiAccountCircleOutline, mdiMagnify, mdiCartOutline } from '@mdi/js';
 import { ROUTES } from '../../routes/ManageCenterRotue';
-import { useCart } from '../../api/context/CartContext';
+import { useCart } from '../../context/CartContext';
 
 const StyleHeader = styled.header`
   position: fixed;

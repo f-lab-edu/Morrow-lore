@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { CartProvider } from './api/context/CartContext.js';
+import { CartProvider } from './context/CartContext.js';
 
 import Header from './components/common/Header';
 import HomePage from './pages/HomePage';

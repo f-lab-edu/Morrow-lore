@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useCart } from '../api/context/CartContext';
+import { useCart } from '../context/CartContext';
 import { toast } from 'react-toastify';
 
 const StyledCartWrap = styled.section`

@@ -5,9 +5,7 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
-import { getCarts } from '../cart/getCarts';
-import { deleteCarts } from '../cart/deleteCarts';
-import { putCarts } from '../cart/putCarts';
+import { getCarts } from '../api/cart/cartAPI';
 
 interface CartItem {
   id: number;

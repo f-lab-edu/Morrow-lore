@@ -376,4 +376,13 @@ export const handlers = [
       return HttpResponse.error();
     }
   }),
+  http.post(`/api/formValues`, async ({ request }) => {
+    const userData = await request.json();
+    try {
+      localStorage.setItem('user', JSON.stringify(userData));
+      return HttpResponse.json();
+    } catch (error) {
+      return HttpResponse.error();
+    }
+  }),
 ];
