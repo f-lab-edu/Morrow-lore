@@ -1,5 +1,6 @@
 import React, { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { CartProvider } from './context/CartContext.js';
 
 import Header from './components/common/Header';
 import HomePage from './pages/HomePage';
@@ -19,33 +20,35 @@ const ProductIdPage = lazy(() => import('./pages/ProductIdPage'));
 const App: React.FC = () => {
   return (
     <div className="App">
-      <Header />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/mypage" element={<MyPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-        <Route path="/orderComplete" element={<PaymentCompletedPage />} />
-        <Route
-          path="/products"
-          element={
-            <LazyLoadWrapper>
-              <ProductPage />
-            </LazyLoadWrapper>
-          }
-        />
-        <Route
-          path="/products/:itemId"
-          element={
-            <LazyLoadWrapper>
-              <ProductIdPage />
-            </LazyLoadWrapper>
-          }
-        />
-      </Routes>
+      <CartProvider>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/orderComplete" element={<PaymentCompletedPage />} />
+          <Route
+            path="/products"
+            element={
+              <LazyLoadWrapper>
+                <ProductPage />
+              </LazyLoadWrapper>
+            }
+          />
+          <Route
+            path="/products/:itemId"
+            element={
+              <LazyLoadWrapper>
+                <ProductIdPage />
+              </LazyLoadWrapper>
+            }
+          />
+        </Routes>
+      </CartProvider>
     </div>
   );
 };

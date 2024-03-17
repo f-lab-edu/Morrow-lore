@@ -1,23 +1,133 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
-const StyleMain = styled.main`
+import { ROUTES } from '../routes/ManageCenterRotue';
+
+const StyledLogin = styled.section`
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  h1 {
+    margin-bottom: 2rem;
+  }
 `;
 
-const StyleSection = styled.section`
-  width: 90%;
-  height: 85vh;
-  margin: 0 auto;
-  background-color: rgb(126, 99, 99, 0.3);
+const StyledLoginForm = styled.form`
+  width: 20%;
+
+  ul {
+    display: flex;
+    flex-direction: column;
+
+    li {
+      display: flex;
+      margin-bottom: 10px;
+    }
+  }
+`;
+
+const StyledLoginLabel = styled.label`
+  width: 50%;
+  font-weight: 500;
+`;
+
+const StyledLoginInput = styled.input`
+  width: 50%;
+  &:required {
+    border: 1px solid green;
+  }
+
+  &:invalid {
+    border: 1px solid red;
+  }
+
+  &:valid {
+    border: 1px solid red;
+  }
+`;
+
+const StyledLoginButtonBox = styled.div`
+  display: flex;
+`;
+
+const StyledLoginButton = styled.button`
+  outline: none;
+  border: 1px solid rgb(29, 29, 31, 0.1);
+  padding: 10px 30px;
+  margin: 10px;
+
+  &:first-child {
+    font-weight: 600;
+    background-color: rgb(29, 29, 31, 0.1);
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(29, 29, 31, 0.3);
+    }
+  }
+
+  &:last-child {
+    font-weight: 600;
+    color: #f7f7f7;
+    background-color: rgb(82, 5, 123, 0.8);
+    transition: all 0.3s;
+
+    &:hover {
+      background-color: rgb(82, 5, 123, 1);
+    }
+  }
 `;
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const handleLoginClick = () => {
+    navigate(ROUTES.HOME);
+  };
+  const handleSignupClick = () => {
+    navigate(ROUTES.SIGNUP);
+  };
+
   return (
-    <StyleMain>
-      <StyleSection />
-    </StyleMain>
+    <StyledLogin>
+      <h1>로그인</h1>
+      <StyledLoginForm action="login">
+        <ul>
+          <li>
+            <StyledLoginLabel htmlFor="inputId">아이디</StyledLoginLabel>
+            <StyledLoginInput
+              type="text"
+              name="inputId"
+              id="inputId"
+              required
+            />
+          </li>
+          <li>
+            <StyledLoginLabel htmlFor="inputPassword">
+              비밀번호
+            </StyledLoginLabel>
+            <StyledLoginInput
+              type="password"
+              name="inputPassword"
+              id="inputPassword"
+              required
+            />
+          </li>
+        </ul>
+      </StyledLoginForm>
+      <StyledLoginButtonBox>
+        <StyledLoginButton type="submit" onClick={handleLoginClick}>
+          로그인
+        </StyledLoginButton>
+        <StyledLoginButton type="button" onClick={handleSignupClick}>
+          회원가입
+        </StyledLoginButton>
+      </StyledLoginButtonBox>
+    </StyledLogin>
   );
 };
 
