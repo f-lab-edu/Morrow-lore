@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../routes/ManageCenterRotue';
-import { useSignupForm } from '../hooks/useSignUp';
+import { useValidationForm } from '../hooks/useFormValidation';
 
 const StyledSignup = styled.section`
   width: 100%;
@@ -39,17 +39,18 @@ const StyledSignupLabel = styled.label`
 
 const StyledSignupInput = styled.input`
   width: 100%;
+  outline: none;
 
   &:required {
     border: 1px solid green;
   }
 
   &:invalid {
-    border: 1px solid red;
+    border: 1px solid rgb(29, 29, 31, 0.3);
   }
 
   &:valid {
-    border: 1px solid red;
+    border: 1px solid blue;
   }
 `;
 
@@ -103,7 +104,7 @@ const StyledSignupButton = styled.button`
 const SignUpPage: React.FC = () => {
   const navigate = useNavigate();
   const { formValues, formErrors, handleChange, handleSubmit } =
-    useSignupForm(navigate);
+    useValidationForm('SignUp');
   const handleCancleClick = () => {
     navigate(ROUTES.LOGINL);
   };

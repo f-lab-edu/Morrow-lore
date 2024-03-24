@@ -376,10 +376,20 @@ export const handlers = [
       return HttpResponse.error();
     }
   }),
-  http.post(`/api/formValues`, async ({ request }) => {
+  http.post(`/api/user`, async ({ request }) => {
     const userData = await request.json();
     try {
       localStorage.setItem('user', JSON.stringify(userData));
+      return HttpResponse.json();
+    } catch (error) {
+      return HttpResponse.error();
+    }
+  }),
+  http.get(`/api/user`, ({ params }) => {
+    const userData = params;
+    try {
+      const user = JSON.parse(localStorage.getItem('user') ?? '{}');
+      console.log(userData, user);
       return HttpResponse.json();
     } catch (error) {
       return HttpResponse.error();

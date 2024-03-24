@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useValidationForm } from '../hooks/useFormValidation';
 
 import { ROUTES } from '../routes/ManageCenterRotue';
 
@@ -38,16 +39,18 @@ const StyledLoginLabel = styled.label`
 
 const StyledLoginInput = styled.input`
   width: 50%;
+  outline: none;
+
   &:required {
     border: 1px solid green;
   }
 
   &:invalid {
-    border: 1px solid red;
+    border: 1px solid rgb(29, 29, 31, 0.3);
   }
 
   &:valid {
-    border: 1px solid red;
+    border: 1px solid blue;
   }
 `;
 
@@ -85,6 +88,8 @@ const StyledLoginButton = styled.button`
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const { formValues, formErrors, handleChange, handleSubmit } =
+    useValidationForm('Login');
   const handleLoginClick = () => {
     navigate(ROUTES.HOME);
   };
@@ -95,7 +100,7 @@ const LoginPage: React.FC = () => {
   return (
     <StyledLogin>
       <h1>로그인</h1>
-      <StyledLoginForm action="login">
+      <StyledLoginForm action="login" onSubmit={handleSubmit}>
         <ul>
           <li>
             <StyledLoginLabel htmlFor="inputId">아이디</StyledLoginLabel>
@@ -103,8 +108,11 @@ const LoginPage: React.FC = () => {
               type="text"
               name="inputId"
               id="inputId"
+              value={formValues.inputId}
+              onChange={handleChange}
               required
             />
+            {formErrors.inputId && <p>{formErrors.inputId}</p>}
           </li>
           <li>
             <StyledLoginLabel htmlFor="inputPassword">
@@ -114,8 +122,11 @@ const LoginPage: React.FC = () => {
               type="password"
               name="inputPassword"
               id="inputPassword"
+              value={formValues.inputPassword}
+              onChange={handleChange}
               required
             />
+            {formErrors.inputId && <p>{formErrors.inputId}</p>}
           </li>
         </ul>
       </StyledLoginForm>

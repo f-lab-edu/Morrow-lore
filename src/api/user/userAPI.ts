@@ -1,18 +1,27 @@
 import axios from 'axios';
 
 interface FormValues {
-  inputName: string;
+  inputName?: string;
   inputId: string;
   inputPassword: string;
-  inputPasswordCheck: string;
-  inputEmail: string;
-  inputPhone: string;
+  inputPasswordCheck?: string;
+  inputEmail?: string;
+  inputPhone?: string;
 }
 
-const postformValues = async (formValues: FormValues) => {
-  const url = '/api/formValues';
+const postUserValues = async (formValues: FormValues) => {
+  const url = '/api/user';
   const response = await axios.post(url, { formValues });
   return response.data;
 };
 
-export { postformValues };
+const getUserValues = async (
+  inputId: string,
+  inputPassword: string,
+): Promise<FormValues> => {
+  const url = `/api/user?inputId=${encodeURIComponent(inputId)}&inputPassword=${encodeURIComponent(inputPassword)}`;
+  const response = await axios.get<FormValues>(url);
+  return response.data;
+};
+
+export { postUserValues, getUserValues };
